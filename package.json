@@ -1,0 +1,28 @@
+{
+  "name": "caden_san_v4_discord",
+  "version": "4.0.0",
+  "description": "Moderation bot for Discord",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Melissa Gries <CadenEras>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/CadenEras/Caden-San/issues"
+},
+"homepage": "https://github.com/CadenEras/Caden-San/blob/main/README.md",
+  "dependencies": {
+    "db": "^3.3.1",
+    "discord.js": "^13.1.0",
+    "eslint": "^7.32.0",
+    "moment": "^2.29.1",
+    "mongoose": "^6.0.6",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "dotenv": "^10.0.0",
+    "eslint-config-prettier": "^8.3.0"
+  }
+}
