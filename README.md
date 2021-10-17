@@ -1,4 +1,4 @@
-# Caden-San V4
+# Caden-San V3
 
 ![npm](https://img.shields.io/npm/v/npm)
 ![npm](https://img.shields.io/npm/v/discord.js?color=%239c7aec&label=discord.js)
@@ -18,7 +18,7 @@ The new discord.js version has arrived ! The actual repo still in v12 but in a f
 
 ## In development !
 
-Caden-San still at a project state since it's in test and new feature keep coming. If you want to see or use the bot features, feel free to join the maintenance server, where tests are performing !
+Caden-San still at a project state since it's in test and new feature keep coming. The final and usable version will have a different name. If you want to see or use the bot features, feel free to join the maintenance server, where tests are performing !
 
 # Comming soon :
  
