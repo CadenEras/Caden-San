@@ -1,5 +1,6 @@
 /** @format */
-
+const moment = require("moment")
+require("moment-duration-format")
 const Command = require("../../Structures/command")
 
 const Discord = require("discord.js")
@@ -25,7 +26,7 @@ module.exports = new Command({
             .addField(`Owner`, `Vinnie#2020 (795326819346808832)`, true)
             .addField(`Creation date`, `July 2021`, true)
             .addField(`Maintenance Server`, `https://discord.gg/W6epQx8YHR`, true)
-            .addField(`Repository (GitHub)`, `https://github.com/CadenEras/Caden_San_V3_Discord`, true)
+            .addField(`Repository (GitHub)`, `https://github.com/CadenEras/Caden_San`, true)
             .addField(`Node version`, `${process.version} on ${process.platform} ${process.arch}`, true)
             .addField(
                `Memory usage`,
@@ -36,7 +37,7 @@ module.exports = new Command({
                ).toFixed(2)} MB Heap.`,
                true
             )
-            .addField(`Uptime`, `${client.uptime.toString}`, true)
+            .addField(`Uptime`, `${moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]")}`, true)
             .setTimestamp()
             .setFooter("Made By Vinnie#2020, with love <3")
 

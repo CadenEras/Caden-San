@@ -10,14 +10,15 @@
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/CadenEras/Caden-San/issues"
-},
-"homepage": "https://github.com/CadenEras/Caden-San/blob/main/README.md",
+  },
+  "homepage": "https://github.com/CadenEras/Caden-San/blob/main/README.md",
   "dependencies": {
     "db": "^3.3.1",
     "discord.js": "^13.1.0",
     "eslint": "^7.32.0",
     "moment": "^2.29.1",
-    "mongoose": "^6.0.6",
+    "moment-duration-format": "^2.3.2",
+    "mongoose": "^6.0.8",
     "prettier": "^2.4.1",
     "typescript": "^4.4.3"
   },

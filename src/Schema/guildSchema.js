@@ -3,13 +3,16 @@ const mongoose = require('mongoose');
 
 const guildSchema = new mongoose.Schema({
     _id: mongoose.Schema.Types.ObjectId,
-    guildId: String,
+    guildId: {type: String},
+    guildName: String,
     lastEdited: String,
+    createdAt: Date,
+    joignedAt: Date,
     prefix: { type: String, default: "c!" },
     muteRoleId: { type: String, required: false },
-    memberDefaultRoleId: { type: String, required: false },
+    memberRoleId: { type: String, required: false },
     logChannelId: {type: String, required: false}
 
 })
 
-module.exports = new mongoose.model('Guild', guildSchema, 'guilds')
+module.exports = new mongoose.model('Guild', guildSchema)

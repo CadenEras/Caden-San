@@ -7,7 +7,7 @@ const Event = require("../Structures/event")
 module.exports = new Event("messageCreate", (client, message) => {
    if (message.guild)
       console.log(
-         `${message.author.tag} sent in #${message.channel.name} from ${message.guild.name} sent a message. Message content : "${message.content}"`
+         `${message.author.tag} in #${message.channel.name} from ${message.guild.name} sent a message. Message content : "${message.content}"`
       )
 
    if (message.author.bot) return
