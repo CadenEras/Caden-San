@@ -7,6 +7,10 @@ const Event = require("./Event.js")
 const config = require("../Config/config.json")
 const intents = new Discord.Intents(32767)
 const fs = require("fs")
+const mongoose = require("mongoose")
+const Guild = require("./../Schema/guildSchema")
+
+let guild
 
 class Client extends Discord.Client {
    constructor() {

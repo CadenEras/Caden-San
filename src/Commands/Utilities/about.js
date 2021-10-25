@@ -2,8 +2,10 @@
 const moment = require("moment")
 require("moment-duration-format")
 const Command = require("../../Structures/command")
+require("dotenv").config({ path: "./../../.env" })
 
 const Discord = require("discord.js")
+
 
 module.exports = new Command({
    name: "about",
@@ -15,6 +17,7 @@ module.exports = new Command({
    permission: "SEND_MESSAGES",
    async run(message, args, client) {
       try {
+         const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
          const embed1 = new Discord.MessageEmbed()
             .setTitle("Caden's-San V3")
             .setColor("#af4ae9")
@@ -41,7 +44,12 @@ module.exports = new Command({
             .setTimestamp()
             .setFooter("Made By Vinnie#2020, with love <3")
 
-         await message.channel.send({ embeds: [embed1] })
+         await channelDev.messages.fetch('899636465598889995')
+         .then((msg) => {
+            setTimeout(function(){
+               msg.edit({ embeds: [embed1]})
+            }, 30000)
+         })
       } catch (error) {
          console.log(error)
          message.channel.send(

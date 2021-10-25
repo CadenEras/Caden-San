@@ -2,9 +2,19 @@
 
 const Discord = require("discord.js")
 const Event = require("../Structures/event")
+const mongoose = require("mongoose")
+const Guild = require("./../Schema/guildSchema")
+//const { config } = require("../../node_modules/dotenv/types")
+const config = require("./../Config/config.json")
 //const talkedRecently = new Set()
 
 module.exports = new Event("messageCreate", (client, message) => {
+   let guildProfile = Guild.findOne({guildId: message.guildId})
+      if (!guildProfile) {
+         console.log(`!!!===[DB Event]guildprofile not found for "${message.guildId}" (${message.guild.name}). Database should be verified.`)
+         
+      }
+
    if (message.guild)
       console.log(
          `${message.author.tag} in #${message.channel.name} from ${message.guild.name} sent a message. Message content : "${message.content}"`
@@ -12,10 +22,10 @@ module.exports = new Event("messageCreate", (client, message) => {
 
    if (message.author.bot) return
 
-   if (!message.content.startsWith(client.prefix)) return
+   if (!message.content.startsWith(config.prefix)) return
 
-   const args = message.content.slice(client.prefix.length).trim().split(/ +/)
-   //const command = args.shift().toLowerCase();
+   const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
+   //const arg = args.shift().toLowerCase();
 
    const command = client.commands.find((cmd) => cmd.name == args[0])
 
