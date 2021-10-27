@@ -29,7 +29,11 @@ module.exports = new Event("messageCreate", (client, message) => {
 
    const command = client.commands.find((cmd) => cmd.name == args[0])
 
-   if (!command) return
+   if (!command){
+      return
+   } else {
+      console.log(`${command.name} found`)
+   }
 
    if (command.guildOnly && message.channel.type === "dm") {
       return message.reply("I can't execute that command inside DMs!")

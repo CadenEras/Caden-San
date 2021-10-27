@@ -24,6 +24,15 @@ module.exports = new Event("ready", (client) => {
    const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
 
    try {
+      let totalSeconds = (client.uptime / 1000)
+      let days = Math.floor(totalSeconds / 86400)
+      let hours = Math.floor(totalSeconds / 3600)
+      totalSeconds %= 3600
+      let minutes = Math.floor(totalSeconds / 60)
+      let seconds = totalSeconds % 60
+
+      let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`
+
       const embed1 = new Discord.MessageEmbed()
          .setTitle("Caden's-San V3")
          .setColor("#af4ae9")
@@ -46,7 +55,7 @@ module.exports = new Event("ready", (client) => {
             ).toFixed(2)} MB Heap.`,
             true
          )
-         .addField(`Uptime`, `${moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]")}`, true)
+         .addField(`Uptime`, `${uptime}`, true)
          .setTimestamp()
          .setFooter("Made By Vinnie#2020, with love <3")
 

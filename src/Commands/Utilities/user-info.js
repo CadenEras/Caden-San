@@ -36,7 +36,7 @@ module.exports = new Command({
          .setAuthor(`${message.author.username}`, `${member.user.displayAvatarURL({ dynamic: true })}`)
          .addField("Joined this server on: ", `${moment(member.joinedAt).format("dddd, MMMM Do YYYY")}`, true)
          .addField("Created at: ", `${moment(member.user.createdAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`, true)
-         .addField("Status: ", `${member.presence.status}`, true)
+         .addField("Status: ", `${member.presence?.status}`, true)
          .addField("Bannable : ", `${member.bannable}`, true)
          .addField("Kickable : ", `${member.kickable}`, true)
          .addField("Manageable : ", `${member.manageable}`, true)

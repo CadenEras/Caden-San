@@ -10,7 +10,7 @@ const fs = require("fs")
 const mongoose = require("mongoose")
 const Guild = require("./../Schema/guildSchema")
 
-let guild
+
 
 class Client extends Discord.Client {
    constructor() {

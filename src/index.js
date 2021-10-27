@@ -2,9 +2,9 @@
 
 /*
  *
- * Caden-San V3, moderation bot for discord
+ * Caden-San V4, moderation bot for discord
  * Created on july 2021 under GNU GPL v3 License
- * by CadenEras (Melissa Gries) Vinnie#2020(795326819346808832)
+ * by CadenEras (Melissa Gries) CadenEras#2020(795326819346808832)
  *
  */
 

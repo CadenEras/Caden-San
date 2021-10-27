@@ -1,6 +1,5 @@
 /** @format */
 const moment = require("moment")
-require("moment-duration-format")
 const Command = require("../../Structures/command")
 require("dotenv").config({ path: "./../../.env" })
 
@@ -17,6 +16,15 @@ module.exports = new Command({
    permission: "SEND_MESSAGES",
    async run(message, args, client) {
       try {
+         let totalSeconds = (client.uptime / 1000)
+         let days = Math.floor(totalSeconds / 86400)
+         let hours = Math.floor(totalSeconds / 3600)
+         totalSeconds %= 3600
+         let minutes = Math.floor(totalSeconds / 60)
+         let seconds = totalSeconds % 60
+
+         let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`
+
          const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
          const embed1 = new Discord.MessageEmbed()
             .setTitle("Caden's-San V3")
@@ -40,7 +48,7 @@ module.exports = new Command({
                ).toFixed(2)} MB Heap.`,
                true
             )
-            .addField(`Uptime`, `${moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]")}`, true)
+            .addField(`Uptime`, `${uptime}`, true)
             .setTimestamp()
             .setFooter("Made By Vinnie#2020, with love <3")
 
