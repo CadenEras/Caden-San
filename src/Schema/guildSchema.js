@@ -1,18 +1,27 @@
-const discord = require('discord.js');
+/**@format */ 
+
 const mongoose = require('mongoose');
+require("dotenv").config({path: "./../../.env"})
+
+const reqString = {
+    type: String,
+    required: true
+}
 
 const guildSchema = new mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
-    guildId: {type: String},
-    guildName: String,
+    _id: reqString,   //guild ID
+    guildName: reqString,
+    prefix: { type: String, default: process.env.DEFAULTPREFIX },
     lastEdited: String,
     createdAt: Date,
     joignedAt: Date,
-    prefix: { type: String, default: "c!" },
     muteRoleId: { type: String, required: false },
     memberRoleId: { type: String, required: false },
-    logChannelId: {type: String, required: false}
+    logChannelId: {type: String, required: false},
+    
 
 })
 
-module.exports = new mongoose.model('Guild', guildSchema)
+const name = 'guild-profile'
+
+module.exports = mongoose.model('Guild', guildSchema)

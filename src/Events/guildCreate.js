@@ -13,15 +13,14 @@ module.exports = new Event("guildCreate", (client, guild, message) => {
    //starting default configuration
 
    const guildProfile = new Guild({
-      _id: mongoose.Types.ObjectId(),
-      guildId: guild.id,
+      _id: guild.id,
       guildName: guild.name,
       createdAt: guild.createdAt,
       joignedAt: guild.joinedAt,
       prefix: defaultPrefix,
       muteRoleId: "",
       memberRoleId: "",
-      logChannelId: guild.systemChannelId,
+      logChannelId: guild.systemChannelId
 
    })
 
@@ -32,7 +31,7 @@ module.exports = new Event("guildCreate", (client, guild, message) => {
    const channel = client.channels.cache.find(channel => channel.id === guild.systemChannelId)
 
    try {
-      return channel.send("")
+      return channel.send("Welcome ! this is a test message !")
    } catch (error) {
       //handle error
       console.error(error)

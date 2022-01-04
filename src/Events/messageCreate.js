@@ -2,19 +2,13 @@
 
 const Discord = require("discord.js")
 const Event = require("../Structures/event")
-const mongoose = require("mongoose")
-const Guild = require("./../Schema/guildSchema")
-//const { config } = require("../../node_modules/dotenv/types")
+const mongoose = require("./../DataBase/mongoose")
 const config = require("./../Config/config.json")
+require("dotenv").config({ path: "./../../.env"}) 
 //const talkedRecently = new Set()
 
-module.exports = new Event("messageCreate", (client, message) => {
-   let guildProfile = Guild.findOne({guildId: message.guildId})
-      if (!guildProfile) {
-         console.log(`!!!===[DB Event]guildprofile not found for "${message.guildId}" (${message.guild.name}). Database should be verified.`)
-         
-      }
-
+module.exports = new Event("messageCreate", async(client, message) => {
+   
    if (message.guild)
       console.log(
          `${message.author.tag} in #${message.channel.name} from ${message.guild.name} sent a message. Message content : "${message.content}"`
@@ -22,9 +16,15 @@ module.exports = new Event("messageCreate", (client, message) => {
 
    if (message.author.bot) return
 
-   if (!message.content.startsWith(config.prefix)) return
+   let guildCard;
+   if(!message.guild.prefix){
+      guildCard = await client.DataBase.fetchGuild(message.guild.id)
+      message.guild.prefix
+   }
 
-   const args = message.content.slice(config.prefix.length).trim().split(/ +/g)
+   if (!message.content.startsWith(prefixCmd) /*|| !message.content.startsWith(process.env.DEFAULTPREFIX)*/) return
+
+   const args = message.content.slice(prefixCmd.length).trim().split(/ +/g)
    //const arg = args.shift().toLowerCase();
 
    const command = client.commands.find((cmd) => cmd.name == args[0])

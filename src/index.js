@@ -8,9 +8,10 @@
  *
  */
 
+//This is the start, nothing above but everything below !
+
 const Client = require("./Structures/client")
 const mongoose = require("./DataBase/mongoose")
-const config = require("./Config/config.json")
 require("dotenv").config({ path: "./../.env" })
 const client = new Client()
 

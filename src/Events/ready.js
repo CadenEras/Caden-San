@@ -5,10 +5,11 @@ const moment = require("moment")
 const Event = require("../Structures/event")
 require("dotenv").config({ path: "./../../.env" }) 
 const chalk = require("chalk")
+const Commands = require("./../Events/messageCreate")
 
-module.exports = new Event("ready", (client) => {
+module.exports = new Event("ready", async(client) => {
    console.log(
-      chalk.green.inverse(`[CLIENT INFO] Time : ${client.readyAt}. Caden is up, logged in as ${client.user.tag} (${client.user.id}), ready on ${client.guilds.cache.size} servers.`)
+      chalk.green.inverse(`[CLIENT INFO] Time : ${client.readyAt}.\n Caden is up, logged in as ${client.user.tag} (${client.user.id}), ready on ${client.guilds.cache.size} servers.`)
    )
 
    client.user.setPresence({
@@ -20,8 +21,10 @@ module.exports = new Event("ready", (client) => {
       ],
       status: "online",
    })
+
+
    //Use this to monitor in real-time the bot in your server, replace it by your channel id
-   const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+   /*const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
 
    try {
       let totalSeconds = (client.uptime / 1000)
@@ -72,5 +75,5 @@ module.exports = new Event("ready", (client) => {
       channelDev.send(
          `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
       )
-   }
+   }*/
 })

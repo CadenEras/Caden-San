@@ -4,7 +4,9 @@ const Command = require("../../Structures/command")
 const mongoose = require("mongoose")
 const Guild = require("./../../Schema/guildSchema")
 const Discord = require("discord.js")
+require("dotenv").config({ path: "./../../.env" })
 
+const defaultPrefix = process.env.DEFAULTPREFIX
 
 
 module.exports = new Command({
@@ -17,10 +19,24 @@ module.exports = new Command({
    async run(message, args, client) {
       //settings
 
-      let guildProfile = await Guild.findOne({guildId: message.guildId})
+      let guildProfile = await Guild.findOne({_id: message.guildId})
       if (!guildProfile) {
          console.log(`!!!===[DB Event]guildprofile not found for "${message.guildId}" (${message.guild.name}). Database should be verified.`)
-         
+         const guildProfile = new Guild({
+            _id: message.guild.id,
+            guildName: message.guild.name,
+            createdAt: message.guild.createdAt,
+            joignedAt: message.guild.joinedAt,
+            prefix: defaultPrefix,
+            muteRoleId: "",
+            memberRoleId: "",
+            logChannelId: message.guild.systemChannelId
+      
+         })
+      
+         guildProfile.save()
+         .then(result => console.log(`Successfully created guild profile for ${message.guild.name} (${message.guild.id}) and added it to the database:\n`, result))
+         .catch(err => console.log(err))
       }
 
       if (!args[1]) {

@@ -7,8 +7,7 @@ const Event = require("./Event.js")
 const config = require("../Config/config.json")
 const intents = new Discord.Intents(32767)
 const fs = require("fs")
-const mongoose = require("mongoose")
-const Guild = require("./../Schema/guildSchema")
+const DataBase = require("./../DataBase/databases")
 
 
 
@@ -20,8 +19,8 @@ class Client extends Discord.Client {
        * @type {Discord.Collection<string, Command>}
        */
       this.commands = new Discord.Collection()
+      this.DataBase =  DataBase
 
-      this.prefix = config.prefix
    }
 
    start(token) {
@@ -72,7 +71,7 @@ class Client extends Discord.Client {
             this.on(event.event, event.runFunction.bind(null, this))
          })
 
-      //Will generate an API Error after reaching the 1000th login (v13)
+      //Will generate an API Error after reaching the 1000th login/day (v13)
       this.login(token)
    }
 }
