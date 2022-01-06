@@ -2,7 +2,6 @@ const Discord = require("discord.js")
 const userSchema = require("./../Schema/userSchema")
 let guildSchema = require("./../Schema/guildSchema")
 const chalk = require("chalk")
-const { ModifierFlags } = require("typescript")
 require("dotenv").config({ path: "./../../.env"})
 
 //Create/Find Guilds Database
