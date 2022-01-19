@@ -3,19 +3,19 @@
 const Event = require("../Structures/event")
 const mongoose = require("mongoose")
 const Guild = require("./../Schema/guildSchema")
+const chalk = require("chalk")
 require("dotenv").config({ path: "./../../.env" })
 
 const defaultPrefix = process.env.DEFAULTPREFIX
 
 module.exports = new Event("guildCreate", (client, guild, message) => {
-   console.log(`[GUILD EVENT] ${guild.name} (${guild.id}) added Caden-San. Owner : <@${guild.ownerId}>. Ready on it. Owner should start configuration.`)
+   console.log(chalk.blueBright(`[GUILD EVENT] ${guild.name} (${guild.id}) added Caden-San. Owner : <@${guild.ownerId}>. Ready on it. Owner should start configuration.`))
 
-   //starting default configuration
+   /*starting default configuration
 
    const guildProfile = new Guild({
       _id: guild.id,
       guildName: guild.name,
-      createdAt: guild.createdAt,
       joignedAt: guild.joinedAt,
       prefix: defaultPrefix,
       muteRoleId: "",
@@ -26,7 +26,7 @@ module.exports = new Event("guildCreate", (client, guild, message) => {
 
    guildProfile.save()
    .then(result => console.log(`Successfully created guild profile for ${guild.name} (${guild.id}) and added it to the database:\n`, result))
-   .catch(err => console.log(err))
+   .catch(err => console.log(err))*/
 
    const channel = client.channels.cache.find(channel => channel.id === guild.systemChannelId)
 

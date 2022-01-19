@@ -24,7 +24,7 @@ module.exports = new Command({
          if (!reason) reason = "No reason was provided."
 
          const banEmbed = new Discord.MessageEmbed()
-            .setAuthor("Caden-San's Moderation module", "https://i.imgur.com/d51nGSV.png")
+            .setAuthor("Caden-San's Moderation module", "https://i.imgur.com/ek6dDxa.png")
             .setTitle("Ban Case")
             .addField(
                `\`Offender :\` ${member.user.tag} (${member.user.id})`,

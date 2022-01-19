@@ -27,14 +27,14 @@ module.exports = new Command({
 
          const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
          const embed1 = new Discord.MessageEmbed()
-            .setTitle("Caden's-San V3")
+            .setTitle("Caden-San")
             .setColor("#af4ae9")
-            .setDescription("Hi ! I'm Caden-San V3, the first bot of Vinnie ! Try `c!help` to start with me !")
-            .setThumbnail("https://i.imgur.com/d51nGSV.png")
-            .setAuthor("Caden-San V3", "https://i.imgur.com/d51nGSV.png")
+            .setDescription("Hi ! I'm Caden-San, a moderation bot created by CadenEras ! Try `c!help` to start with me !")
+            .setAuthor("Caden-San V3", "https://i.imgur.com/ek6dDxa.png")
+            .addField(`Art by`, `Opheliart#3547 (633310607730278402)`)
             .addField(`Language`, `JavaScript`, true)
             .addField(`Prefix`, `c!`, true)
-            .addField(`Owner`, `Vinnie#2020 (795326819346808832)`, true)
+            .addField(`Owner`, `CadenEras#2020 (795326819346808832)`, true)
             .addField(`Creation date`, `July 2021`, true)
             .addField(`Maintenance Server`, `https://discord.gg/W6epQx8YHR`, true)
             .addField(`Repository (GitHub)`, `https://github.com/CadenEras/Caden_San`, true)
@@ -49,8 +49,9 @@ module.exports = new Command({
                true
             )
             .addField(`Uptime`, `${uptime}`, true)
+            .setImage("https://i.imgur.com/ek6dDxa.png")
             .setTimestamp()
-            .setFooter("Made By Vinnie#2020, with love <3")
+            .setFooter("Made By CadenEras#2020, with love <3")
 
          await channelDev.messages.fetch('899636465598889995')
          .then((msg) => {

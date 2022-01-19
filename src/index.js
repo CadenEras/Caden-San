@@ -12,8 +12,13 @@
 
 const Client = require("./Structures/client")
 const mongoose = require("./DataBase/mongoose")
+const chalk = require("chalk")
 require("dotenv").config({ path: "./../.env" })
 const client = new Client()
 
-mongoose.init()
+mongoose().then(() => {
+    console.log(chalk.cyanBright.inverse("Caden-San is now connected to the database !"))
+}).catch((e) => {
+    console.log(chalk.red.inverse(`Caden-San encountered an error with the connection to the database ! Error : ${e}`))
+})
 client.start(process.env.TOKEN)

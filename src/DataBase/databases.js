@@ -7,13 +7,13 @@ require("dotenv").config({ path: "./../../.env"})
 
 //Create/Find Guilds Database
 module.exports.fetchGuild = async function(key){
-    let guildDB = await guildSchema.findOne({ id: key })
+    let guildDB = await guildSchema.findOne({ _id: key })
 
     if(guildDB){
         return(guildDB)
     } else {
         guildDB = new guildSchema({
-            id: key,
+            _id: key,
             createdAt: Date.now()
         })
         await guildDB.save().catch(err => console.log(chalk.red("Error while fetching guild :", err)))

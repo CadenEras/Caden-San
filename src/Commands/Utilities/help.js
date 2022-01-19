@@ -22,8 +22,8 @@ module.exports = new Command({
             .setTitle("Caden-San's Library")
             .setColor("#af4ae9")
             .setDescription("Get all the help you need with me !\n Try `c!help [command]` for more info !")
-            .setThumbnail("https://i.imgur.com/d51nGSV.png")
-            .setAuthor("Caden-San's help module", "https://i.imgur.com/d51nGSV.png")
+            .setThumbnail("https://i.imgur.com/ek6dDxa.png")
+            .setAuthor("Caden-San's help module", "https://i.imgur.com/ek6dDxa.png")
             .addFields(
                {
                   name: "Utilities",
@@ -50,8 +50,8 @@ module.exports = new Command({
                .setTitle("Cadens-San's Library")
                .setColor("#af4ae9")
                .setDescription("Get all the help you need with me !")
-               .setThumbnail("https://i.imgur.com/d51nGSV.png")
-               .setAuthor("Caden-San's help module", "https://i.imgur.com/d51nGSV.png")
+               .setThumbnail("https://i.imgur.com/ek6dDxa.png")
+               .setAuthor("Caden-San's help module", "https://i.imgur.com/ek6dDxa.png")
                .addField(
                   `Command: $${command.name}`,
                   `Description: ${command.description}\n` +
@@ -59,7 +59,7 @@ module.exports = new Command({
                      `Permission needed: ${command.permission}\n`
                )
                .setTimestamp()
-               .setFooter("Made By Vinnie#2020, with love <3")
+               .setFooter("Made By CadenEras#2020, with love <3")
 
             message.channel.send({ embeds: [embed2] })
          } catch (error) {

@@ -73,6 +73,10 @@ class Client extends Discord.Client {
 
       //Will generate an API Error after reaching the 1000th login/day (v13)
       this.login(token)
+
+      process.on('unhandledRejection', error =>{
+         console.log('Unhandled error occured:\n', error)
+      })
    }
 }
 

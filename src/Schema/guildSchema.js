@@ -1,7 +1,7 @@
 /**@format */ 
 
+const config = require("./../Config/config.json");
 const mongoose = require('mongoose');
-require("dotenv").config({path: "./../../.env"})
 
 const reqString = {
     type: String,
@@ -10,16 +10,20 @@ const reqString = {
 
 const guildSchema = new mongoose.Schema({
     _id: reqString,   //guild ID
-    guildName: reqString,
-    prefix: { type: String, default: process.env.DEFAULTPREFIX },
-    lastEdited: String,
-    createdAt: Date,
+    //guildName: reqString,
+    prefix: { type: String, default: config.prefix },
     joignedAt: Date,
     muteRoleId: { type: String, required: false },
     memberRoleId: { type: String, required: false },
     logChannelId: {type: String, required: false},
     
-
+    addons: { type: Object, default: {
+        welcome: {
+            enabled: false,
+            channelId: null,
+            message: null
+        }
+    }}
 })
 
 const name = 'guild-profile'
