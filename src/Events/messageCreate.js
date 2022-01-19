@@ -57,9 +57,19 @@ module.exports = new Event("messageCreate", async(client, message) => {
    /*if (talkedRecently.has(message.author.id)) {
     message.channel.send('Hey ! Not that fast ! You need to wait 10 more seconds.')
   } else {*/
+
+   let userData = await client.DataBase.fetchMember(message.author.id)
+   if (!guildCard) {
+      guildCard = await client.DataBase.fetchGuild(message.guild.id)
+   }
+
+   let data = {}
+   data.user = userData
+   data.guild
+
    //try command here
    try {
-      command.run(message, args, client)
+      command.run(message, args, client, data)
    } catch (error) {
       //handle error
       console.error(error)

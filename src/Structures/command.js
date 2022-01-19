@@ -1,7 +1,7 @@
 /**@format */
 
 const Client = require("./client")
-
+const Data = require ("./../DataBase/databases")
 const Discord = require("discord.js")
 
 /**
@@ -9,9 +9,10 @@ const Discord = require("discord.js")
  * @param {Discord.Message | Discord.CommandInteraction} message
  * @param {string[]} args
  * @param {Client} client
+ * @param {Data} data
  */
 
-function RunFunction(message, args, client) {}
+function RunFunction(message, args, client, data) {}
 
 class Command {
    /**
