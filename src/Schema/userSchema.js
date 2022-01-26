@@ -7,7 +7,7 @@ const reqString = {
 }
 
 const userSchema = new mongoose.Schema({
-    _id: reqString,
+    _id: reqString,  //user's id
     createdAt: Date
 })
 

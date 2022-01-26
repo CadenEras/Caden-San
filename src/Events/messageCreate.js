@@ -17,11 +17,21 @@ module.exports = new Event("messageCreate", async(client, message) => {
    if (message.author.bot) return
    if (!message.guild) return
 
-   let guildCard;
+   let guildCard
+   if (!guildCard) {
+      guildCard = await client.DataBase.fetchGuild(message.guild.id, message.guild.name, message.guild.systemChannelId)
+   }
    if(!message.guild.prefix){
       guildCard = await client.DataBase.fetchGuild(message.guild.id)
       message.guild.prefix = guildCard.prefix.toLowerCase()
    }
+
+   let userData
+   if (!userData) userData = await client.DataBase.fetchUser(message.author.id)
+   
+
+   let memberData
+   if (!memberData) memberData = await client.DataBase.fetchMember(message.author.id, message.guild.id)
 
    let prefix = message.guild.prefix
 
@@ -57,15 +67,11 @@ module.exports = new Event("messageCreate", async(client, message) => {
    /*if (talkedRecently.has(message.author.id)) {
     message.channel.send('Hey ! Not that fast ! You need to wait 10 more seconds.')
   } else {*/
-
-   let userData = await client.DataBase.fetchMember(message.author.id)
-   if (!guildCard) {
-      guildCard = await client.DataBase.fetchGuild(message.guild.id)
-   }
-
+   
    let data = {}
    data.user = userData
-   data.guild
+   data.member = memberData
+   data.guild = guildCard
 
    //try command here
    try {
