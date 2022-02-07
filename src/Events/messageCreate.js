@@ -19,7 +19,7 @@ module.exports = new Event("messageCreate", async(client, message) => {
 
    let guildCard
    if (!guildCard) {
-      guildCard = await client.DataBase.fetchGuild(message.guild.id, message.guild.name, message.guild.systemChannelId)
+      guildCard = await client.DataBase.fetchGuild(message.guild.id, message.guild.name, message.guild.systemChannelId, message.guild.joignedAt)
    }
    if(!message.guild.prefix){
       guildCard = await client.DataBase.fetchGuild(message.guild.id)
@@ -44,7 +44,7 @@ module.exports = new Event("messageCreate", async(client, message) => {
    const args = message.content.slice(prefix.length).trim().split(/ +/g)
    //const arg = args.shift().toLowerCase();
 
-   const command = client.commands.find((cmd) => cmd.name == args[0])
+   const command = client.commands.find((cmd) => cmd.name === args[0])
 
    if (!command){
       return

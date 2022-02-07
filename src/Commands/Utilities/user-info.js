@@ -58,6 +58,8 @@ module.exports = new Command({
 
       await message.channel.send({ embeds: [infoEmbed] })
 
+      //TODO: when a raw id is typed, do not send intel about the user that sended the message, return an error instead
+
       /*if (!args.length) {
 		
 		} else {

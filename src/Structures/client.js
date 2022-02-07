@@ -8,7 +8,7 @@ const config = require("../Config/config.json")
 const intents = new Discord.Intents(32767)
 const fs = require("fs")
 const DataBase = require("./../DataBase/databases")
-
+const Util = require("./../Base-Functions/setChannelGuild")
 
 
 class Client extends Discord.Client {
@@ -20,6 +20,7 @@ class Client extends Discord.Client {
        */
       this.commands = new Discord.Collection()
       this.DataBase =  DataBase
+       this.util = Util
 
    }
 

@@ -1,6 +1,7 @@
 /** @format */
 
 const Command = require("../../Structures/command")
+require("dotenv").config( { path: "./../../.env" })
 
 const Discord = require("discord.js")
 
@@ -14,7 +15,7 @@ module.exports = new Command({
    usage: "c!help or !help [command]",
    permission: "SEND_MESSAGES",
    async run(message, args, client) {
-      const command = client.commands.find((cmd) => cmd.name == args[1])
+      const command = client.commands.find((cmd) => cmd.name === args[1])
 
       if (!command) {
          const embed1 = new Discord.MessageEmbed()
@@ -31,42 +32,48 @@ module.exports = new Command({
                },
                {
                   name: "Moderation :",
-                  value: "`ban` `unban` `Kick` `mute` `unmute` `clear`",
-               }
+                  value: "`ban` `unban` `kick` `mute` `unmute` `clear`",
+               },
+                {
+                   name: "Settings :",
+                   value: "`prefix` `settings`",
+                }
             )
             .setTimestamp()
-            .setFooter("Made By CadenEras#1919, with love <3")
+            .setFooter("Made By CadenEras#2020, with love <3")
 
          await message.channel.send({ embeds: [embed1] })
-      } else if (command != undefined) {
-         /* fs.readFile(__dirname + '/../../../config/commands_library.json', (err, dataJson) => {  
-                if (err) throw err;
-                let commands_library = JSON.parse(dataJson);
-                let commandName = command[1];*/
-
-         try {
-            const embed2 = new Discord.MessageEmbed()
-
-               .setTitle("Cadens-San's Library")
-               .setColor("#af4ae9")
-               .setDescription("Get all the help you need with me !")
-               .setThumbnail("https://i.imgur.com/ek6dDxa.png")
-               .setAuthor("Caden-San's help module", "https://i.imgur.com/ek6dDxa.png")
-               .addField(
-                  `Command: $${command.name}`,
-                  `Description: ${command.description}\n` +
-                     `Usage: ${command.usage}\n` +
-                     `Permission needed: ${command.permission}\n`
+      } else {
+         { /* fs.readFile(__dirname + '/../../../config/commands_library.json', (err, dataJson) => {
+          if (err) throw err;
+          let commands_library = JSON.parse(dataJson);
+          let commandName = command[1];*/
+            try {
+               const embed2 = new Discord.MessageEmbed()
+             
+                   .setTitle( "Cadens-San's Library" )
+                   .setColor( "#af4ae9" )
+                   .setDescription( "Get all the help you need with me !" )
+                   .setThumbnail( "https://i.imgur.com/ek6dDxa.png" )
+                   .setAuthor( "Caden-San's help module", "https://i.imgur.com/ek6dDxa.png" )
+                   .addField(
+                       `Command: ${message.guild.prefix}${command.name}`,
+                       `Description: ${command.description}\n` +
+                       `Usage: ${command.usage}\n` +
+                       `Permission needed: ${command.permission}\n`
+                   )
+                   .setTimestamp()
+                   .setFooter( "Made By CadenEras#2020, with love <3" )
+         
+               message.channel.send( { embeds: [ embed2 ] } )
+         
+            } catch ( error ) {
+               console.log( error )
+               const channelDev = client.channels.cache.find( channel => channel.id === process.env.BASEDEVLOGCHANNELID )
+               channelDev.channel.send(
+                   `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
                )
-               .setTimestamp()
-               .setFooter("Made By CadenEras#2020, with love <3")
-
-            message.channel.send({ embeds: [embed2] })
-         } catch (error) {
-            console.log(error)
-            message.channel.send(
-               `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
-            )
+            }
          }
       }
    },

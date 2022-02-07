@@ -12,6 +12,7 @@ module.exports = new Command({
    guildOnly: true,
    async run(message, args, client) {
       try {
+         if (!args[1]) return message.reply("Forgot how to use this command ? Try `c!help mute` to see how it works.")
          const member = message.mentions.members.first() || message.guild.members.cache.get(args[1])
 
          if (!member) return message.reply("You need to mention someone to use this command.")

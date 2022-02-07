@@ -8,7 +8,7 @@
  *
  */
 
-//This is the start, nothing above but everything below !
+//This is the start, nothing above, everything below !
 
 const Client = require("./Structures/client")
 const mongoose = require("./DataBase/mongoose")
@@ -21,4 +21,5 @@ mongoose().then(() => {
 }).catch((e) => {
     console.log(chalk.red.inverse(`Caden-San encountered an error with the connection to the database ! Error : ${e}`))
 })
+
 client.start(process.env.TOKEN)

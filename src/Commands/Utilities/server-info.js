@@ -25,6 +25,8 @@ module.exports = new Command({
             .setTimestamp()
 
          await message.channel.send({ embeds: [embed1] })
+
+         //TODO: when a raw id is typed, do not send intel about the server that sended the message, return an error instead
       } catch (error) {
          console.log(error)
          message.channel.send(
