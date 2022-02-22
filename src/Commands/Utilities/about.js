@@ -63,8 +63,9 @@ module.exports = new Command({
          console.log(error)
          const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
          channelDev.channel.send(
-            `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
+            `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
          )
+         message.channel.send("Something went wrong... If this error keeps occurring, please report it in the maintenance server.")
       }
    },
 })

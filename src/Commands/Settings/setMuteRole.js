@@ -2,32 +2,29 @@
 
 const Command = require("../../Structures/command")
 const mongoose = require("mongoose")
-const UserP = require("../../Schema/userSchema")
 const Discord = require("discord.js")
 require("dotenv").config({ path: "./../../.env" })
 
-const defaultPrefix = "c!"
-
 module.exports = new Command({
-   name: "prefix",
-   description: "Set a new prefix",
+   name: "setMuteRole",
+   description: "Set your custom mute role",
    type: "TEXT",
    guildOnly: true,
-   usage: "c!prefix",
+   usage: "setMuteRole (roleID)",
    permission: "ADMINISTRATOR",
    async run(message, args, client) {
        try{
-           if (!args[1]) return message.reply("Forgot how to use this command ? Try `c!help prefix` to see how it works.")
-           let guildData;
-           if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
-    
-           let prefix = args.slice(1).join(" ")
-           guildData.prefix = prefix
-           await guildData.save();
-    
-           message.guild.prefix = prefix.toLowerCase()
-    
-           return message.channel.send(`The new prefix is : \`${prefix}\``)
+           if (!args[1]) return message.reply("Forgot how to use this command ? Try `c!help setMuteRole` to see how it works.")
+        let guildData;
+        if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
+
+        let muteRole = args.slice(1).join(" ")
+        guildData.muteRoleId = muteRole
+        await guildData.save();
+
+        message.guild.muteRole = muteRole.toLowerCase()
+
+        return message.channel.send(`The new mute role is : \`<@${muteRole}>\` (${muteRole})`)
        } catch(error) {
            console.log(error)
            const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)

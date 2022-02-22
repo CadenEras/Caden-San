@@ -12,7 +12,7 @@ module.exports = new Command({
    guildOnly: true,
    type: "TEXT",
    cooldown: 5,
-   usage: "c!help or !help [command]",
+   usage: "help or help [command]",
    permission: "SEND_MESSAGES",
    async run(message, args, client) {
       const command = client.commands.find((cmd) => cmd.name === args[1])
@@ -36,7 +36,7 @@ module.exports = new Command({
                },
                 {
                    name: "Settings :",
-                   value: "`prefix` `settings`",
+                   value: "`prefix` `settings` `setMuteRole`",
                 }
             )
             .setTimestamp()
@@ -68,11 +68,12 @@ module.exports = new Command({
                message.channel.send( { embeds: [ embed2 ] } )
          
             } catch ( error ) {
-               console.log( error )
-               const channelDev = client.channels.cache.find( channel => channel.id === process.env.BASEDEVLOGCHANNELID )
-               channelDev.channel.send(
-                   `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
-               )
+                console.log(error)
+                const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+                channelDev.channel.send(
+                    `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
+                )
+                message.channel.send("Something went wrong... If this error keeps occurring, please report it in the maintenance server.")
             }
          }
       }

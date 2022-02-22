@@ -5,12 +5,13 @@ require("dotenv").config({ path: "./../../.env" })
 
 const client = require("./../Structures/client")
 const Discord = require("discord.js")
-const message = Discord.Message
 
 
-let updtMsgAbout = module.exports = new Job('30 * * * * *', function (client){
-    const channelDev = client.channels.cache.find( channel => channel.id === process.env.BASEDEVLOGCHANNELID)
-    let totalSeconds = (client.uptime / 1000)
+let updtMsgAbout = module.exports = new Job('30 * * * * *', function (jClient){
+    jClient = client
+    const cadenChannel = jClient.channels.cache.find( channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+    
+    let totalSeconds = (jClient.uptime / 1000)
     let days = Math.floor(totalSeconds / 86400)
     let hours = Math.floor(totalSeconds / 3600)
     totalSeconds %= 3600
@@ -18,7 +19,6 @@ let updtMsgAbout = module.exports = new Job('30 * * * * *', function (client){
     let seconds = totalSeconds % 60
     
     let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`
-    
     
     const embed1 = new Discord.MessageEmbed()
         .setTitle("Caden-San")
@@ -47,7 +47,7 @@ let updtMsgAbout = module.exports = new Job('30 * * * * *', function (client){
         .setFooter("Made By CadenEras#2020, with love <3")
     
     try {
-        channelDev.messages.fetch('899636465598889995')
+        cadenChannel.messages.fetch('940563298846388284')
             .then((msg) => {
                 setTimeout(function(){
                     msg.edit({ embeds: [embed1]})
@@ -56,7 +56,7 @@ let updtMsgAbout = module.exports = new Job('30 * * * * *', function (client){
         
     } catch (e) {
         console.log(error)
-        const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+        const channelDev = jClient.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
         channelDev.channel.send(
             `Something went wrong with the Cron Job update. Stack error log : ${error}`
         )

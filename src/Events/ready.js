@@ -6,6 +6,7 @@ const Event = require("../Structures/event")
 require("dotenv").config({ path: "./../../.env" }) 
 const chalk = require("chalk")
 const Commands = require("./../Events/messageCreate")
+const job = require("./../Config/cronjobs")
 
 module.exports = new Event("ready", async(client) => {
    console.log(
@@ -21,5 +22,6 @@ module.exports = new Event("ready", async(client) => {
       ],
       status: "online",
    })
+   //job.start(client)
 
 })

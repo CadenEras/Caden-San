@@ -1,35 +1,60 @@
 /** @format */
 
 const Command = require("../../structures/command")
+const Discord = require( "discord.js" );
+require("dotenv").config({ path: "./../../.env" })
 
 module.exports = new Command({
    name: "kick",
    description: "Kick an user from the server.",
-   usage: "c!kick [user] [reason]",
+   usage: "kick [user] [reason]",
    type: "TEXT",
    guildOnly: true,
    permission: "KICK_MEMBERS",
    async run(message, args, client) {
-      const member = message.mentions.members.first() || message.guild.members.cache.get(args[1])
-
-      if (!member)
-         //you have to type !kick then @username#1234 as an example
-         return message.reply("Please mention a valid member of this server !")
-      if (!member.kickable) return message.reply("I cannot kick this user! Do they have a higher role?")
-
-      // slice(1) removes the first part, which here should be the user mention or ID
-      // join(' ') takes all the various parts to make it a single string.
-      const reason = args.slice(2, 20).join(" ")
-      if (!reason) reason = "No reason was provided."
-
       try {
-         await member.kick()
-         message.channel.send(`${member.user.tag} has been kicked by ${message.author.tag}. Reason: ${reason}`)
+         if (!args[1]) return message.reply("Forgot how to use this command ? Try `c!help mute` to see how it works.")
+         
+         const offender = message.mentions.members.first() || message.guild.members.cache.get(args[1])
+         if (!offender) return message.reply("You need to mention someone to use this command.")
+      
+         //Check if the offender is actually kickable (check if the user is manageable and if you have Ban Members Permission)
+         if (!offender.kickable) {
+            return message.channel.send(
+                `I cannot ban ${offender.user.username}! Their role is maybe higher or i don't have ban permission here...`
+            )
+         }
+         
+         //Catching the reason...
+         let reason = args.slice( 2, 50 ).join(" ")
+         if (!reason) reason = "No reason was provided."
+         
+         //...creating the case...
+         const banEmbed = new Discord.MessageEmbed()
+             .setAuthor("Caden-San's Moderation module", "https://i.imgur.com/ek6dDxa.png")
+             .setTitle("Kick Case")
+             .addField(
+                 `\`Offender :\` ${offender.user.tag} (${offender.user.id})`,
+                 `\`Reason :\` ${reason}\n\`Moderator :\` ${message.author.tag} (${message.author.id})`
+             )
+             .setColor("#ff8000")
+             .setThumbnail(`${offender.user.displayAvatarURL({ dynamic: true })}`)
+             .setTimestamp()
+   
+         message.channel.send({ embeds: [banEmbed] })
+         
+         //...then kick the offender
+         //await offender.kick()
+   
+         //Sending a private message to the offender
+         await offender.user.send(`You've been kicked from ${message.guild.name} for ${reason} by ${message.author.tag}.`)
       } catch (error) {
          console.log(error)
-         message.channel.send(
-            `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
+         const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+         channelDev.channel.send(
+             `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
          )
+         message.channel.send("Something went wrong... If this error keeps occurring, please report it in the maintenance server.")
       }
    },
 })

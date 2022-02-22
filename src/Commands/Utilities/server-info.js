@@ -1,15 +1,15 @@
 /** @format */
 
 const Command = require("../../Structures/command")
-
 const Discord = require("discord.js")
+require("dotenv").config({ path: "./../../.env" })
 
 module.exports = new Command({
    name: "server-info",
    description: "Get information of the current server !",
    guildOnly: true,
    cooldown: 5,
-   usage: "c!server-info",
+   usage: "server-info",
    permission: "SEND_MESSAGES",
    async run(message, args, client) {
       try {
@@ -29,9 +29,11 @@ module.exports = new Command({
          //TODO: when a raw id is typed, do not send intel about the server that sended the message, return an error instead
       } catch (error) {
          console.log(error)
-         message.channel.send(
-            `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
+         const channelDev = client.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
+         channelDev.channel.send(
+             `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
          )
+         message.channel.send("Something went wrong... If this error keeps occurring, please report it in the maintenance server.")
       }
    },
 })

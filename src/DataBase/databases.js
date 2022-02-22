@@ -8,7 +8,7 @@ require("dotenv").config({ path: "./../../.env"})
 
 //Create/Find Guilds Database
 module.exports.fetchGuild = async function(key, guildName, systemChannel, joignedTime){
-    let guildDB = await guildSchema.findOne({ _id: key, guildName: guildName, systemChannelId: systemChannel, joignedAt: joignedTime })
+    let guildDB = await guildSchema.findOne({ _id: key })
 
     if(guildDB){
         return(guildDB)
