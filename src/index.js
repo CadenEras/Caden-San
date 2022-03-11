@@ -12,14 +12,47 @@
 
 const Client = require("./Structures/client")
 const mongoose = require("./DataBase/mongoose")
-const chalk = require("chalk")
 require("dotenv").config({ path: "./../.env" })
+const config = require("./Config/config.json")
+//Using Sentry here => sentry.io
+const Sentry = require("@sentry/node")
+const Tracing = require("@sentry/tracing")
+//to color console output
+const chalk = require("chalk")
+const fs = require("fs")
+//Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
+let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let streamKonsole = new console.Console(logFileStream, logFileStream, false)
+
 const client = new Client()
 
-mongoose().then(() => {
-    console.log(chalk.cyanBright.inverse("Caden-San is now connected to the database !"))
-}).catch((e) => {
-    console.log(chalk.red.inverse(`Caden-San encountered an error with the connection to the database ! Error : ${e}`))
+Sentry.init({
+    dsn: config.dsnSentry,
+    integrations: [new Tracing.Integrations.Mongo({
+        useMongoose: true
+    })],
+    tracesSampleRate: 1
+})
+
+const transaction = Sentry.startTransaction({
+    op: "transaction",
+    name: "Caden Transaction"
+})
+
+mongoose()
+    .then(() => {
+        streamKonsole.log("Caden-San is connecting to the database !")
+    })
+    .catch((error) => {
+        streamKonsole.log(
+            `Caden-San encountered an error trying to connect to the database ! Error : ${error}`
+        )
+    })
+
+process.on('uncaughtException', function ( err ) {
+    console.log((err && err.stack) ? err.stack : err)
+    streamKonsole.log((err && err.stack) ? err.stack : err)
+    Sentry.captureException(err)
 })
 
 client.start(process.env.TOKEN)

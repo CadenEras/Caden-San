@@ -10,12 +10,13 @@
 ![GitHub](https://img.shields.io/github/license/CadenEras/Caden-San?color=blueviolet)
 ![Discord](https://img.shields.io/discord/862476312568004668?label=Discord)
 ![Lines of code](https://img.shields.io/tokei/lines/github/CadenEras/Caden-San?color=%23F29F33)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
 # Welcome !
 
 Caden-San is an easy moderation bot. Always improving, Caden will help you keep your server functional and healthy.
+<img src="https://i.imgur.com/ek6dDxa.png" alt="caden-san avatar" style="max-width: 50%; margin-top: 20px;">
 
-![Image](https://i.imgur.com/ek6dDxa.png)
 
 ## Migrating to Discord.js v13.1.0 !
  

@@ -1,7 +1,7 @@
 /**@format */
 
 const Client = require("./client")
-const Data = require ("./../DataBase/databases")
+const Data = require("./../DataBase/databases")
 const Discord = require("discord.js")
 
 /**
@@ -15,21 +15,21 @@ const Discord = require("discord.js")
 function RunFunction(message, args, client, data) {}
 
 class Command {
-   /**
-    * @typedef {"BOTH" | "SLASH" | "TEXT"} CommandType
-    * @typedef {name: string, description: string, usage: string, permission: Discord.PermissionString, type: CommandType, slashOptions: Discord.ApplicationCommandOptions[], run: RunFunction} CommandOptions
-    * @param {CommandOptions} options
-    */
+    /**
+     * @typedef {"BOTH" | "SLASH" | "TEXT"} CommandType
+     * @typedef {name: string, description: string, usage: string, permission: Discord.PermissionString, type: CommandType, slashOptions: Discord.ApplicationCommandOptions[], run: RunFunction} CommandOptions
+     * @param {CommandOptions} options
+     */
 
-   constructor(options) {
-      this.name = options.name
-      this.description = options.description
-      this.permission = options.permission
-      this.type = ["BOTH", "SLASH", "TEXT"].includes(options.type) ? options.type : "TEXT"
-      this.usage = options.usage
-      this.cooldown = options.cooldown
-      this.run = options.run
-   }
+    constructor(options) {
+        this.name = options.name
+        this.description = options.description
+        this.permission = options.permission
+        this.type = ["BOTH", "SLASH", "TEXT"].includes(options.type) ? options.type : "TEXT"
+        this.usage = options.usage
+        this.cooldown = options.cooldown
+        this.run = options.run
+    }
 }
 
 module.exports = Command

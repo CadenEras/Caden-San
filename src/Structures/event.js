@@ -16,14 +16,14 @@ function RunFunction(client, ...eventArgs) {}
  */
 
 class Event {
-   /**
-    * @param {K} event
-    * @param {RunFunction<K>} runFunction
-    */
-   constructor(event, runFunction) {
-      this.event = event
-      this.runFunction = runFunction
-   }
+    /**
+     * @param {K} event
+     * @param {RunFunction<K>} runFunction
+     */
+    constructor(event, runFunction) {
+        this.event = event
+        this.runFunction = runFunction
+    }
 }
 
 module.exports = Event

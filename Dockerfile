@@ -1,9 +1,11 @@
 #Filename: DockerFile
 FROM node:10-alpine
-WORKDIR /discord_bot/can-san/src
-COPY package*.json ./
+ENTRYPOINT ["tail", "-f", "/dev/null"]
+ENV NODE_ENV=production
+WORKDIR /Caden_San_V4_Discord
+COPY . ./
 RUN npm install
 COPY . .
-
 EXPOSE 3000
-CMD ["npm", "start"]
+WORKDIR ./src
+CMD ["node", "index.js"]

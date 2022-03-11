@@ -5,21 +5,25 @@ require("dotenv").config({ path: "./../../.env" })
 
 const client = require("./../Structures/client")
 const Discord = require("discord.js")
+const fs = require( "fs" );
+const config = require( "./config.json" );
+let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let streamKonsole = new console.Console(logFileStream, logFileStream, false)
+let currentDate = Date.now()
 
-
-let updtMsgAbout = module.exports = new Job('30 * * * * *', function (jClient){
+let updtMsgAbout = (module.exports = new Job("30 * * * * *", function (jClient) {
     jClient = client
-    const cadenChannel = jClient.channels.cache.find( channel => channel.id === process.env.BASEDEVLOGCHANNELID)
-    
-    let totalSeconds = (jClient.uptime / 1000)
+    const cadenChannel = jClient.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+
+    let totalSeconds = jClient.uptime / 1000
     let days = Math.floor(totalSeconds / 86400)
     let hours = Math.floor(totalSeconds / 3600)
     totalSeconds %= 3600
     let minutes = Math.floor(totalSeconds / 60)
     let seconds = totalSeconds % 60
-    
+
     let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`
-    
+
     const embed1 = new Discord.MessageEmbed()
         .setTitle("Caden-San")
         .setColor("#af4ae9")
@@ -45,22 +49,16 @@ let updtMsgAbout = module.exports = new Job('30 * * * * *', function (jClient){
         .setImage("https://i.imgur.com/ek6dDxa.png")
         .setTimestamp()
         .setFooter("Made By CadenEras#2020, with love <3")
-    
-    try {
-        cadenChannel.messages.fetch('940563298846388284')
-            .then((msg) => {
-                setTimeout(function(){
-                    msg.edit({ embeds: [embed1]})
-                }, 30000)
-            })
-        
-    } catch (e) {
-        console.log(error)
-        const channelDev = jClient.channels.cache.find(channel => channel.id === process.env.BASEDEVLOGCHANNELID)
-        channelDev.channel.send(
-            `Something went wrong with the Cron Job update. Stack error log : ${error}`
-        )
-    }
-    
-})
 
+    try {
+        cadenChannel.messages.fetch("940563298846388284").then((msg) => {
+            setTimeout(function () {
+                msg.edit({ embeds: [embed1] })
+            }, 30000)
+        })
+    } catch (e) {
+        streamKonsole.log(error)
+        const channelDev = jClient.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+        channelDev.channel.send(`Something went wrong with the Cron Job update. Stack error log : ${error}`)
+    }
+}))
