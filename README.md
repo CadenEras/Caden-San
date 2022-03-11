@@ -26,7 +26,7 @@ The new discord.js version has arrived ! The actual repo still in v12 but in a f
 
 Caden-San still at a project state since it's in test and new feature keep coming. The final and usable version will have a different name. If you want to see or use the bot features, feel free to join the maintenance server, where tests are performing !
 
-# Comming soon :
+# Coming soon :
  
  - Log feature for moderation
  - Full customization of role, channel and prefix
