@@ -1,9 +1,9 @@
 /**@format */
 
 const Event = require("../Structures/event")
-const fs = require( "fs" );
-const config = require( "../Config/config.json" );
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+const fs = require("fs")
+const config = require("../Config/config.json")
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 

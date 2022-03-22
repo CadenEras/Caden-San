@@ -9,8 +9,8 @@ const reqString = {
 
 const memberSchema = new mongoose.Schema({
     _id: { type: String }, //user's id
-    guild: { type: Array }, //user's guild
+    guild: { type: [String] }, //user's guild
     createdAt: { type: Number, default: Date.now() },
 })
 
-module.exports = new mongoose.model("member", memberSchema)
+module.exports = mongoose.model("member", memberSchema)

@@ -3,9 +3,9 @@
 const Command = require("../../Structures/command")
 require("dotenv").config({ path: "./../../.env" })
 const Discord = require("discord.js")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+const fs = require("fs")
+const config = require("../../Config/config.json")
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -26,7 +26,9 @@ module.exports = new Command({
 
                 .setTitle("Caden-San's Library")
                 .setColor("#af4ae9")
-                .setDescription("Get all the help you need with me !\n Try `c!help [command]` for more info !")
+                .setDescription(
+                    "Get all the help you need with me !\n Try `c!help [command]` for more info !"
+                )
                 .setThumbnail("https://i.imgur.com/ek6dDxa.png")
                 .setAuthor("Caden-San's help module", "https://i.imgur.com/ek6dDxa.png")
                 .addFields(

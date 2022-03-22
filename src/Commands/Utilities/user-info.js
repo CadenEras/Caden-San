@@ -3,10 +3,10 @@
 const Command = require("../../Structures/command")
 const Discord = require("discord.js")
 const moment = require("moment")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -17,13 +17,15 @@ module.exports = new Command({
     type: "TEXT",
     cooldown: 5,
     usage: "user-info or user-info [user mention]",
-    permission: "SEND_MESSAGES",
+    permission: "MANAGE_MESSAGES",
     async run(message, args, client) {
         try {
             const member =
-                message.mentions.members.first() || message.guild.members.cache.get(args[0]) || message.member
+                message.mentions.members.first() ||
+                message.guild.members.cache.get(args[0]) ||
+                message.member
 
-            var acknowledgements = "none"
+            let acknowledgements = "none"
             const admin = member.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR, true)
 
             if (member.id === message.guild.ownerId) {
@@ -38,10 +40,19 @@ module.exports = new Command({
 
                 .setTitle("Here is your information :")
                 .setColor("#af4ae9")
-                .setDescription(`Your username : ${member.user.username}\nYour ID : ${member.user.id}\n`)
+                .setDescription(
+                    `Your username : ${member.user.username}\nYour ID : ${member.user.id}\n`
+                )
                 .setThumbnail(`${member.user.displayAvatarURL({ dynamic: true })}`)
-                .setAuthor(`${message.author.username}`, `${member.user.displayAvatarURL({ dynamic: true })}`)
-                .addField("Joined this server on: ", `${moment(member.joinedAt).format("dddd, MMMM Do YYYY")}`, true)
+                .setAuthor(
+                    `${message.author.username}`,
+                    `${member.user.displayAvatarURL({ dynamic: true })}`
+                )
+                .addField(
+                    "Joined this server on: ",
+                    `${moment(member.joinedAt).format("dddd, MMMM Do YYYY")}`,
+                    true
+                )
                 .addField(
                     "Created at: ",
                     `${moment(member.user.createdAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`,
@@ -54,8 +65,9 @@ module.exports = new Command({
                 .addField("Acknowledgements: ", `${acknowledgements}`, true)
                 .addField(
                     `Roles [${
-                        member.roles.cache.filter((r) => r.id !== message.guild.id).map((roles) => `\`${roles.name}\``)
-                            .length
+                        member.roles.cache
+                            .filter((r) => r.id !== message.guild.id)
+                            .map((roles) => `\`${roles.name}\``).length
                     }]`,
                     `${
                         member.roles.cache
@@ -92,7 +104,9 @@ module.exports = new Command({
           await message.channel.send(embed2);*/
         } catch (error) {
             streamKonsole.log(error)
-            const channelDev = client.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+            const channelDev = client.channels.cache.find(
+                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+            )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
             )

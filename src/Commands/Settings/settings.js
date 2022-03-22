@@ -4,11 +4,11 @@ const Command = require("../../Structures/command")
 const mongoose = require("mongoose")
 const Guild = require("./../../Schema/guildSchema")
 const Discord = require("discord.js")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
 const defaultPrefix = process.env.DEFAULTPREFIX
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -60,7 +60,10 @@ module.exports = new Command({
                 )
             if (guildProfile.prefix) settingEmbed.addField(`Prefix: `, guildProfile.prefix)
             if (guildProfile.muteRoleId) {
-                settingEmbed.addField(`Mute Role: `, `<@${guildProfile.muteRoleId}> (${guildProfile.muteRoleId})`)
+                settingEmbed.addField(
+                    `Mute Role: `,
+                    `<@${guildProfile.muteRoleId}> (${guildProfile.muteRoleId})`
+                )
             } else {
                 settingEmbed.addField("Mute Role:", "No mute role set.")
             }
@@ -73,18 +76,23 @@ module.exports = new Command({
                 settingEmbed.addField("Default Role for new member:", "No default role set.")
             }
             if (guildProfile.logChannelId) {
-                settingEmbed.addField(`Log Channel: `, `<@${guildProfile.logChannelId}> (${guildProfile.logChannelId})`)
+                settingEmbed.addField(
+                    `Log Channel: `,
+                    `<@${guildProfile.logChannelId}> (${guildProfile.logChannelId})`
+                )
             } else {
                 settingEmbed.addField("Log Channel:", "No log channel set.")
             }
 
             await message.channel.send({ embeds: [settingEmbed] })
-            
         } else {
             if (!["prefix", "muteRoleId", "memberRoleId", "logChannelId"].includes(args[1]))
                 return await message.channel.send("You need to give a valid property to change.")
             if ("prefix" === args[1]) {
-                await Guild.findOneAndUpdate({ guildId: message.guild.id }, { prefix: args[2], lastEdited: Date.now() })
+                await Guild.findOneAndUpdate(
+                    { guildId: message.guild.id },
+                    { prefix: args[2], lastEdited: Date.now() }
+                )
                 message.channel.send("Successfully updated your custom prefix !")
             } else if ("muteRoleId" === args[1]) {
                 await Guild.findOneAndUpdate(
@@ -97,7 +105,9 @@ module.exports = new Command({
                     { guildId: message.guild.id },
                     { memberRoleId: args[2], lastEdited: Date.now() }
                 )
-                message.channel.send("Successfully updated your default role for your new members !")
+                message.channel.send(
+                    "Successfully updated your default role for your new members !"
+                )
             } else if ("logChannelId" === args[1]) {
                 await Guild.findOneAndUpdate(
                     { guildId: message.guild.id },

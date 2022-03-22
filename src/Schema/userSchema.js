@@ -1,14 +1,15 @@
-const discord = require('discord.js');
-const mongoose = require('mongoose');
+/**@format */
+
+const mongoose = require("mongoose")
 
 const reqString = {
     type: String,
-    required: true
+    required: true,
 }
 
 const userSchema = new mongoose.Schema({
-    _id: reqString,  //user's id
-    createdAt: Date
+    _id: reqString, //user's id
+    createdAt: Date,
 })
 
-module.exports = new mongoose.model('UserP', userSchema)
+module.exports = mongoose.model("UserP", userSchema)

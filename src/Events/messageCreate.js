@@ -2,19 +2,16 @@
 
 const Discord = require("discord.js")
 const Event = require("../Structures/event")
-const mongoose = require("./../DataBase/mongoose")
 const config = require("./../Config/config.json")
-const fs = require( "fs" );
-require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+const fs = require("fs")
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
-//const talkedRecently = new Set()
 
 module.exports = new Event("messageCreate", async (client, message) => {
     try {
         //That's my way to see if it works...
         /*if (message.guild)
-         streamKonsole.log(
+         console.log(
             `${message.author.tag} in #${message.channel.name} from ${message.guild.name} sent a message. Message content : "${message.content}"`
          )*/
 
@@ -41,12 +38,16 @@ module.exports = new Event("messageCreate", async (client, message) => {
         if (!userData) userData = await client.DataBase.fetchUser(message.author.id)
 
         let memberData
-        if (!memberData) memberData = await client.DataBase.fetchMember(message.author.id, message.guild.id)
+        if (!memberData)
+            memberData = await client.DataBase.fetchMember(message.author.id, message.guild.id)
 
         let prefix = message.guild.prefix
 
         //We can mention the bot if we forgot the prefix
-        if (message.content === `<@!${message.client.user.id}>` || message.content === `<@${message.client.user.id}>`) {
+        if (
+            message.content === `<@!${message.client.user.id}>` ||
+            message.content === `<@${message.client.user.id}>`
+        ) {
             return message.reply(
                 `Forgot how to use me ? My prefix is \`${prefix}\` ! Use \`${prefix}help\` to find all you need about me !`
             )
@@ -76,7 +77,9 @@ module.exports = new Event("messageCreate", async (client, message) => {
             streamKonsole.log(
                 `[Command Logger] ${Date.now}\nFrom : ${message.guild.id}, User ${message.author} used ${command.name} but is missing some permissions`
             )
-            return message.reply("Oops ! It seems that you are trying to override your permission !")
+            return message.reply(
+                "Oops ! It seems that you are trying to override your permission !"
+            )
         }
 
         //giving cooldown if command have that settled
@@ -94,7 +97,7 @@ module.exports = new Event("messageCreate", async (client, message) => {
         //handle error
         streamKonsole.error(error)
         return message.reply(
-            `Something went wrong... You should report that in my maintenance server with the following log. Stack error log : ${error}`
+            `Something went wrong... You should report that in my maintenance server with your guild id and the command you tried to use.`
         )
     }
     //}

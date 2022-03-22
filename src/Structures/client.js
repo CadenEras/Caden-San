@@ -1,24 +1,24 @@
 /**@format */
 
 const Discord = require("discord.js")
-require("dotenv").config({ path: "./../../.env" })
 const Command = require("./Command.js")
 const Event = require("./Event.js")
 const intents = new Discord.Intents(32767)
 const fs = require("fs")
 const DataBase = require("./../DataBase/databases")
 const Util = require("./../Base-Functions/setChannelGuild")
-const chalk = require("chalk")
-const config = require( "../Config/config.json" );
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+const config = require("../Config/config.json")
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
-
 
 let instance
 
 class Client extends Discord.Client {
     constructor() {
-        super({ intents })
+        super({
+            intents,
+            partials: ["MESSAGE", "REACTION", "CHANNEL", "GUILD_MEMBER"],
+        })
 
         if (instance) {
             throw new Error("Client instance have been already created once !")
@@ -37,7 +37,9 @@ class Client extends Discord.Client {
     start(token) {
         //Command handler
         fs.readdirSync("./Commands").forEach((dirs) => {
-            const commands = fs.readdirSync(`./Commands/${dirs}`).filter((files) => files.endsWith(".js"))
+            const commands = fs
+                .readdirSync(`./Commands/${dirs}`)
+                .filter((files) => files.endsWith(".js"))
 
             /**
              * @type {Command[]}
@@ -88,7 +90,6 @@ class Client extends Discord.Client {
         process.on("unhandledRejection", (error) => {
             streamKonsole.log("Unhandled error occurred:\n", error)
         })
-        
     }
 }
 

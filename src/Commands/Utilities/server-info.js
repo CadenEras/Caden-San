@@ -2,10 +2,10 @@
 
 const Command = require("../../Structures/command")
 const Discord = require("discord.js")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -34,7 +34,9 @@ module.exports = new Command({
             //TODO: when a raw id is typed, do not send intel about the server that sent the message, return an error instead
         } catch (error) {
             streamKonsole.log(error)
-            const channelDev = client.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+            const channelDev = client.channels.cache.find(
+                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+            )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
             )

@@ -1,0 +1,17 @@
+{
+    "_comment": "How to use this boilerplate : rename this file in  -config.json- ",
+    "_comment2": "Consider using a .env file for your token as done in this code",
+    "_comment3": "Sentry and MongoDB are totally optional.",
+
+    "prefix": "your-default-prefix",
+    "token": "your-token",
+    "ownerID": "your-discord-id",
+    "baseGuildId": "your-guild-id",
+    "baseChannelInfoId": "your-guild-channel-info-id-if-used-so",
+    "DevLogChannelId": "your-guild-log-channel-id-if-used-so",
+    "mongo": "if-using-mongoDB-your-connection-string-goes-here",
+    "ppCaden": "avatar-of-your-bot",
+    "idDiscordMe": "bot's-tag(eg:bot#000)",
+    "logFileStreamPath": "path-to-your-log-file(including-file-name)",
+    "dsnSentry": "if-using-sentry-your-dns-string goes-here"
+}

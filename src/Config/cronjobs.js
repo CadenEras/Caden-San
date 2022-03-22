@@ -5,15 +5,17 @@ require("dotenv").config({ path: "./../../.env" })
 
 const client = require("./../Structures/client")
 const Discord = require("discord.js")
-const fs = require( "fs" );
-const config = require( "./config.json" );
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+const fs = require("fs")
+const config = require("./config.json")
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
 let updtMsgAbout = (module.exports = new Job("30 * * * * *", function (jClient) {
     jClient = client
-    const cadenChannel = jClient.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+    const cadenChannel = jClient.channels.cache.find(
+        (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+    )
 
     let totalSeconds = jClient.uptime / 1000
     let days = Math.floor(totalSeconds / 86400)
@@ -27,7 +29,9 @@ let updtMsgAbout = (module.exports = new Job("30 * * * * *", function (jClient) 
     const embed1 = new Discord.MessageEmbed()
         .setTitle("Caden-San")
         .setColor("#af4ae9")
-        .setDescription("Hi ! I'm Caden-San, a moderation bot created by CadenEras ! Try `c!help` to start with me !")
+        .setDescription(
+            "Hi ! I'm Caden-San, a moderation bot created by CadenEras ! Try `c!help` to start with me !"
+        )
         .setAuthor("Caden-San", "https://i.imgur.com/ek6dDxa.png")
         .addField(`Art by`, `Opheliart#3547 (633310607730278402)`)
         .addField(`Language`, `JavaScript`, true)
@@ -58,7 +62,11 @@ let updtMsgAbout = (module.exports = new Job("30 * * * * *", function (jClient) 
         })
     } catch (e) {
         streamKonsole.log(error)
-        const channelDev = jClient.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
-        channelDev.channel.send(`Something went wrong with the Cron Job update. Stack error log : ${error}`)
+        const channelDev = jClient.channels.cache.find(
+            (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+        )
+        channelDev.channel.send(
+            `Something went wrong with the Cron Job update. Stack error log : ${error}`
+        )
     }
 }))

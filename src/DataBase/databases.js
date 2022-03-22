@@ -6,8 +6,7 @@ let logSchema = require("./../Schema/log")
 const chalk = require("chalk")
 const fs = require( "fs" );
 const config = require( "../Config/config.json" );
-require("dotenv").config({ path: "./../../.env"})
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, {flags: 'a'})
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -46,48 +45,34 @@ module.exports.fetchUser = async function(key){
 
 //Create/find Members Database
 module.exports.fetchMember = async function(key, guildId){
-    let memberDB = await memberSchema.findOne({ _id: key})
+    
+    let memberDB = await memberSchema.findOne({ _id: key })
     
     if(memberDB){
-        let memberDBWithGuild = await memberSchema.findOne({ _id: key, guildId: guildId})
-        //test line
-        console.log("here")
-        if (memberDBWithGuild.guild === guildId){
-            //test line
-            console.log("here too")
+        let memberDBWithGuild = await memberSchema.findOne({ _id: key, guild: guildId})
+        if(memberDBWithGuild) {
+            console.log(memberDBWithGuild)
             return memberDBWithGuild
         } else {
-            memberDB.update( {
-                _id: key,
-                $push: {
-                    guild: guildId
-                }
-            })
-            await memberDB.save().catch(err => streamKonsole.log(`${currentDate} Error while updating guild for member : ${err}`))
-            //test line
-            console.log("maybe here")
-            return memberDB
+            memberSchema.updateOne(
+                { _id: key },
+                {
+                    $push: {
+                        guild: guildId
+                    },
+                },
+            ).catch(err => streamKonsole.log(`${currentDate} Error while updating guild for member : ${err}`))
+            console.log(memberDBWithGuild)
+            return memberDBWithGuild
         }
     } else {
         memberDB = new memberSchema({
             _id: key,
             guild: guildId,
+            
             createdAt: Date.now()
         })
         await memberDB.save().catch(err => streamKonsole.log(`${currentDate} Error while fetching member : ${err}`))
             return memberDB
     }
 }
-
-// Create/find Log in Database
-/*module.exports.createLog = async function(message, data){
-
-    let logDB = new logSchema({
-        commandName: data.cmd.name,
-        author: { username: message.author.username, discriminator: message.author.discriminator, id: message.author.id },
-        guild: { name: message.guild ? message.guild.name : "dm", id: message.guild ? message.guild.id : "dm", channel: message.channel ? message.channel.id : "unknown" },
-        date: Date.now()
-    })
-    await logDB.save().catch(err => streamKonsole.log(err))
-
-}*/

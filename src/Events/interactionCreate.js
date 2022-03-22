@@ -1,5 +1,6 @@
 /**@format */
 
+const Discord = require("discord.js")
 const Event = require("../Structures/event")
 
 module.exports = new Event("interactionCreate", (client, interaction) => {
@@ -8,11 +9,13 @@ module.exports = new Event("interactionCreate", (client, interaction) => {
     const args = [
         interaction.commandName,
         ...client.commands
-            .find((command) => command.name.toLowerCase() == interaction.commandName)
+            .find((command) => command.name.toLowerCase() === interaction.commandName)
             .slashCommandOptions.map((v) => `${interaction.options.get(v.name).value}`),
     ]
 
-    const command = client.commands.find((command) => command.name.toLowerCase() == interaction.commandName)
+    const command = client.commands.find(
+        (command) => command.name.toLowerCase() === interaction.commandName
+    )
 
     if (!command) return interaction.reply("Hm... That is not a valid command.")
 

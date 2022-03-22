@@ -1,12 +1,12 @@
 /** @format */
 
 const Command = require("../../structures/command")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
-let currentDate = Date.now()
+let currentDate = Date.now().toString()
 
 module.exports = new Command({
     name: "unban",
@@ -18,24 +18,36 @@ module.exports = new Command({
     async run(message, args, client) {
         try {
             if (!args[1])
-                return message.reply("Forgot how to use this command ? Try `c!help mute` to see how it works.")
+                return message.reply(
+                    "Forgot how to use this command ? Try `c!help mute` to see how it works."
+                )
             const userID = args[1]
 
             message.guild.bans.fetch().then((bans) => {
                 //Checking if there is a ban list in the server
-                if (bans.size === 0) return message.reply("It appear that this guild does not have any banned user...")
+                if (bans.size === 0)
+                    return message.reply(
+                        "It appear that this guild does not have any banned user..."
+                    )
 
                 //Checking if the user was really banned of the server...
                 const bannedUser = bans.find((banned) => banned.user.id === userID)
-                if (!bannedUser) return message.reply("This user does not seem to have been banned...")
+                if (!bannedUser)
+                    return message.reply("This user does not seem to have been banned...")
 
                 //...then unban the user
                 message.guild.members.unban(bannedUser.user)
-                message.channel.send(`<@${userID}> (${userID})has been successfully unban by ${message.author.tag}!`)
+                message.channel.send(
+                    `<@${userID}> (${userID})has been successfully unban by ${message.author.tag}!`
+                )
             })
         } catch (error) {
-            streamKonsole.log(error)
-            const channelDev = client.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+            streamKonsole.log(
+                `${currentDate} An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
+            )
+            const channelDev = client.channels.cache.find(
+                (channel) => channel.id === config.DevLogChannelId
+            )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
             )

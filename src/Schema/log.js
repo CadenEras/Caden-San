@@ -12,7 +12,7 @@ module.exports = mongoose.model(
             type: Object,
             default: {
                 username: "Unknown",
-                discrminator: "0000",
+                discriminator: "0000",
                 id: null,
             },
         },

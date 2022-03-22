@@ -2,10 +2,10 @@
 
 const Discord = require("discord.js")
 const Command = require("../../structures/command")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -19,19 +19,29 @@ module.exports = new Command({
     async run(message, args, client) {
         try {
             if (!args[1])
-                return message.reply("Forgot how to use this command ? Try `c!help mute` to see how it works.")
+                return message.reply(
+                    "Forgot how to use this command ? Try `c!help mute` to see how it works."
+                )
 
-            const member = message.mentions.members.first() || message.guild.members.cache.get(args[1])
+            const member =
+                message.mentions.members.first() || message.guild.members.cache.get(args[1])
             if (!member) return message.reply("You need to mention someone to use this command.")
 
             //checking if targeted member can be muted
             const admin = member.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR, true)
-            const permission = member.permissions.has(Discord.Permissions.FLAGS.MANAGE_MESSAGES, true)
+            const permission = member.permissions.has(
+                Discord.Permissions.FLAGS.MANAGE_MESSAGES,
+                true
+            )
 
             if (admin) {
-                return message.reply(`I can't mute <@${member.id}>. They have Administrator permission !`)
+                return message.reply(
+                    `I can't mute <@${member.id}>. They have Administrator permission !`
+                )
             } else if (permission) {
-                return message.reply(`I can't mute <@${member.id}>. They may have an higher role than you or than me.`)
+                return message.reply(
+                    `I can't mute <@${member.id}>. They may have an higher role than you or than me.`
+                )
             }
 
             //Checking if there is a role registered in the db by the owner of the guild
@@ -56,7 +66,9 @@ module.exports = new Command({
 
             if (!muteRole) {
                 //Is there a default mute role already ?
-                let defaultMuteRole = message.guild.roles.cache.find((role) => role.name === "muted")
+                let defaultMuteRole = message.guild.roles.cache.find(
+                    (role) => role.name === "muted"
+                )
                 //start creating one if not
                 if (!defaultMuteRole) {
                     defaultMuteRole = await message.guild.roles.create({
@@ -96,9 +108,9 @@ module.exports = new Command({
                 member.roles.cache.some((role) => role.id === cMuteRole)
             )
                 return message.reply("This user is already mute !")
-    
+
             let defaultMuteRole = message.guild.roles.cache.find((role) => role.name === "muted")
-            
+
             //catching the reason...
             let reason = args.slice(2, 50).join(" ")
             if (!reason) reason = "No reason was provided."
@@ -114,7 +126,9 @@ module.exports = new Command({
             )
         } catch (error) {
             streamKonsole.log(error)
-            const channelDev = client.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+            const channelDev = client.channels.cache.find(
+                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+            )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
             )

@@ -4,10 +4,10 @@ const Command = require("../../Structures/command")
 const mongoose = require("mongoose")
 const UserP = require("../../Schema/userSchema")
 const Discord = require("discord.js")
-const fs = require( "fs" );
-const config = require( "../../Config/config.json" );
+const fs = require("fs")
+const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
@@ -23,7 +23,9 @@ module.exports = new Command({
     async run(message, args, client) {
         try {
             if (!args[1])
-                return message.reply("Forgot how to use this command ? Try `c!help prefix` to see how it works.")
+                return message.reply(
+                    "Forgot how to use this command ? Try `c!help prefix` to see how it works."
+                )
             let guildData
             if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
 
@@ -36,7 +38,9 @@ module.exports = new Command({
             return message.channel.send(`The new prefix is : \`${prefix}\``)
         } catch (error) {
             streamKonsole.log(error)
-            const channelDev = client.channels.cache.find((channel) => channel.id === process.env.BASEDEVLOGCHANNELID)
+            const channelDev = client.channels.cache.find(
+                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+            )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
             )

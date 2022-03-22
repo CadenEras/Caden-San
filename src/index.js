@@ -11,48 +11,72 @@
 //This is the start, nothing above, everything below !
 
 const Client = require("./Structures/client")
-const mongoose = require("./DataBase/mongoose")
-require("dotenv").config({ path: "./../.env" })
+const mongoose = require("mongoose")
 const config = require("./Config/config.json")
+const fs = require("fs")
 //Using Sentry here => sentry.io
 const Sentry = require("@sentry/node")
 const Tracing = require("@sentry/tracing")
-//to color console output
-const chalk = require("chalk")
-const fs = require("fs")
+const { getCurrentHub } = require("@sentry/node")
 //Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
-let logFileStream = fs.createWriteStream(config.logFileStreamPath)
+let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" })
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
-
-const client = new Client()
+const currentDate = Date.now().toString()
 
 Sentry.init({
     dsn: config.dsnSentry,
-    integrations: [new Tracing.Integrations.Mongo({
-        useMongoose: true
-    })],
-    tracesSampleRate: 1
+    integrations: [
+        new Tracing.Integrations.Mongo({
+            useMongoose: true,
+        }),
+    ],
+    tracesSampleRate: 1.0,
 })
 
 const transaction = Sentry.startTransaction({
     op: "transaction",
-    name: "Caden Transaction"
+    name: "Caden Transaction",
 })
 
-mongoose()
-    .then(() => {
-        streamKonsole.log("Caden-San is connecting to the database !")
+Sentry.configureScope((scope) => {
+    scope.setSpan(transaction)
+})
+
+try {
+    //connecting to the database
+    mongoose.connect(config.mongo, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     })
-    .catch((error) => {
+
+    mongoose.connection.on("connected", () => {
+        streamKonsole.log(`Caden-San is now connected to the database !`)
+    })
+
+    mongoose.connection.on("disconnected", () => {
+        streamKonsole.log(`Caden-San has disconnected from the database !`)
+    })
+
+    mongoose.connection.on("error", (error) => {
         streamKonsole.log(
-            `Caden-San encountered an error trying to connect to the database ! Error : ${error}`
+            `Caden-San encountered an error with the connection to the database ! Error : ${error}`
         )
     })
 
-process.on('uncaughtException', function ( err ) {
-    console.log((err && err.stack) ? err.stack : err)
-    streamKonsole.log((err && err.stack) ? err.stack : err)
-    Sentry.captureException(err)
-})
+    //Starting the client
+    const client = new Client()
 
-client.start(process.env.TOKEN)
+    client.start(config.token)
+} catch (e) {
+    streamKonsole.log(`Error initializing connection : ${e}`)
+    Sentry.captureException(e)
+} finally {
+    transaction.finish()
+    streamKonsole.log("Connection to MongoDB successfully established !")
+    streamKonsole.log("Connection to Sentry successfully established !")
+}
+
+process.on("uncaughtException", function (err) {
+    console.log(err && err.stack ? err.stack : err)
+    streamKonsole.log(err && err.stack ? err.stack : err)
+})
