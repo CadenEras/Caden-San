@@ -28,6 +28,7 @@ module.exports = new Command({
             let acknowledgements = "none"
             const admin = member.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR, true)
 
+            //Getting member position
             if (member.id === message.guild.ownerId) {
                 acknowledgements = "Server Owner"
             } else if (admin) {
@@ -84,28 +85,10 @@ module.exports = new Command({
 
             //TODO: when a raw id is typed, do not send intel about the user that sent the message, return an error instead
 
-            /*if (!args.length) {
-       
-          } else {
-          const taggedUser = message.mentions.users.first();
-          const embed2 = new Discord.MessageEmbed()
-       
-          .setTitle(`Here is ${taggedUser.username}\'s information :`)
-          .setColor('#af4ae9')
-          .setDescription(`Username : ${taggedUser.username}\nID : ${taggedUser.id}\n`)
-          .setThumbnail(`${taggedUser.displayAvatarURL({dynamic: true})}`)
-          .setFooter(`ID: ${message.author.id}`)
-          .addField('Joined at: ',`${moment(member.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`, true)
-          .addField("Created at: ",`${moment(taggedUser.createdAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`, true)
-          .addField("Acknowledgements: ", `${acknowledgements}`, true)
-          .addField(`Roles : [${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]`,`${member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
-          .setAuthor(`${taggedUser.username}`, `${taggedUser.displayAvatarURL({dynamic: true})}`);
-       
-          await message.channel.send(embed2);*/
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`

@@ -13,6 +13,7 @@ let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 
 let instance
 
+//Creating our client from Discord Client
 class Client extends Discord.Client {
     constructor() {
         super({
@@ -20,6 +21,7 @@ class Client extends Discord.Client {
             partials: ["MESSAGE", "REACTION", "CHANNEL", "GUILD_MEMBER"],
         })
 
+        //Prevent from creating another client if already existing
         if (instance) {
             throw new Error("Client instance have been already created once !")
         }
@@ -35,7 +37,7 @@ class Client extends Discord.Client {
     }
 
     start(token) {
-        //Command handler
+        //Reading command files
         fs.readdirSync("./Commands").forEach((dirs) => {
             const commands = fs
                 .readdirSync(`./Commands/${dirs}`)
@@ -53,6 +55,7 @@ class Client extends Discord.Client {
             }
 
             //Slash command handler
+            //Actually not working
             const slashCommands = commands
                 .filter((command) => ["BOTH", "SLASH"].includes(command.type))
                 .map((command) => ({
@@ -72,7 +75,7 @@ class Client extends Discord.Client {
             })
         })
 
-        //Event handler
+        //Reading event files
         fs.readdirSync(`./events`)
             .filter((files) => files.endsWith(".js"))
             .forEach((file) => {
@@ -87,6 +90,7 @@ class Client extends Discord.Client {
         //Will generate an API Error after reaching the 1000th login/day (v13)
         this.login(token)
 
+        //Prevent from crashing on unhandled Rejection
         process.on("unhandledRejection", (error) => {
             streamKonsole.log("Unhandled error occurred:\n", error)
         })

@@ -33,9 +33,9 @@ module.exports = new Command({
 
             //TODO: when a raw id is typed, do not send intel about the server that sent the message, return an error instead
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`

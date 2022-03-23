@@ -23,6 +23,7 @@ let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" 
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 const currentDate = Date.now().toString()
 
+//Initializing Sentry coonection
 Sentry.init({
     dsn: config.dsnSentry,
     integrations: [
@@ -33,11 +34,13 @@ Sentry.init({
     tracesSampleRate: 1.0,
 })
 
+//Setting transaction
 const transaction = Sentry.startTransaction({
     op: "transaction",
     name: "Caden Transaction",
 })
 
+//Configuring scope
 Sentry.configureScope((scope) => {
     scope.setSpan(transaction)
 })
@@ -49,6 +52,7 @@ try {
         useUnifiedTopology: true,
     })
 
+    //Catching Mongo events
     mongoose.connection.on("connected", () => {
         streamKonsole.log(`Caden-San is now connected to the database !`)
     })
@@ -67,7 +71,9 @@ try {
     const client = new Client()
 
     client.start(config.token)
+
 } catch (e) {
+    //Handling errors
     streamKonsole.log(`Error initializing connection : ${e}`)
     Sentry.captureException(e)
 } finally {
@@ -76,6 +82,7 @@ try {
     streamKonsole.log("Connection to Sentry successfully established !")
 }
 
+//Prevent from craching on uncaught Exception from the try catch
 process.on("uncaughtException", function (err) {
     console.log(err && err.stack ? err.stack : err)
     streamKonsole.log(err && err.stack ? err.stack : err)

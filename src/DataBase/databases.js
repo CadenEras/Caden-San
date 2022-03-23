@@ -10,7 +10,7 @@ let logFileStream = fs.createWriteStream(config.logFileStreamPath, {flags: 'a'})
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
-//Create/Find Guilds Database
+//Create/Find Guilds Data
 module.exports.fetchGuild = async function(key, guildName, systemChannel, joignedTime){
     let guildDB = await guildSchema.findOne({ _id: key })
 
@@ -28,6 +28,7 @@ module.exports.fetchGuild = async function(key, guildName, systemChannel, joigne
     }
 }
 
+//Create/Find Users Data
 module.exports.fetchUser = async function(key){
 
     let userDB = await userSchema.findOne({ _id: key });
@@ -43,17 +44,20 @@ module.exports.fetchUser = async function(key){
     }
 };
 
-//Create/find Members Database
+//Create/find Members Data
 module.exports.fetchMember = async function(key, guildId){
-    
+    //Checking if member exist
     let memberDB = await memberSchema.findOne({ _id: key })
     
     if(memberDB){
+        //If yes, with the correct guild id stored ?
         let memberDBWithGuild = await memberSchema.findOne({ _id: key, guild: guildId})
         if(memberDBWithGuild) {
+            //If yes, return data
             console.log(memberDBWithGuild)
             return memberDBWithGuild
         } else {
+            //If no, append new guild id in the data, then return data
             memberSchema.updateOne(
                 { _id: key },
                 {
@@ -66,6 +70,7 @@ module.exports.fetchMember = async function(key, guildId){
             return memberDBWithGuild
         }
     } else {
+        //Else, create new member
         memberDB = new memberSchema({
             _id: key,
             guild: guildId,

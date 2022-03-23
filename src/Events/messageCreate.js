@@ -34,6 +34,7 @@ module.exports = new Event("messageCreate", async (client, message) => {
             message.guild.prefix = guildCard.prefix.toLowerCase()
         }
 
+        //Fetching some data...
         let userData
         if (!userData) userData = await client.DataBase.fetchUser(message.author.id)
 
@@ -67,11 +68,7 @@ module.exports = new Event("messageCreate", async (client, message) => {
             streamKonsole.log(`${command.name} found`)
         }
 
-        /*if (command.guildOnly && message.channel.type === "dm") {
-         return message.reply("I can't execute that command inside DMs!")
-      }*/
-
-        //Checking Author permissions
+        //Checking Author permissions...
         const permission = message.member.permissions.has(command.permission, true)
         if (!permission) {
             streamKonsole.log(
@@ -82,16 +79,13 @@ module.exports = new Event("messageCreate", async (client, message) => {
             )
         }
 
-        //giving cooldown if command have that settled
-        /*if (talkedRecently.has(message.author.id)) {
-       message.channel.send('Hey ! Not that fast ! You need to wait 10 more seconds.')
-     } else {*/
-
+        //Getting the data for commands...
         let data = {}
         data.user = userData
         data.member = memberData
         data.guild = guildCard
 
+        //... Then run the command !
         command.run(message, args, client, data)
     } catch (error) {
         //handle error
@@ -100,10 +94,4 @@ module.exports = new Event("messageCreate", async (client, message) => {
             `Something went wrong... You should report that in my maintenance server with your guild id and the command you tried to use.`
         )
     }
-    //}
-
-    /*talkedRecently.add(message.author.id)
-  setTimeout(() => {
-    talkedRecently.delete(message.author.id)
-  }, 10000)*/
 })

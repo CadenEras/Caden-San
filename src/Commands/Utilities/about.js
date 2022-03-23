@@ -11,7 +11,7 @@ let currentDate = Date.now()
 
 module.exports = new Command({
     name: "about",
-    description: "Get information about Caden-San V3",
+    description: "Get information about Caden-San",
     type: "TEXT",
     guildOnly: true,
     cooldown: 5,
@@ -19,6 +19,7 @@ module.exports = new Command({
     permission: "SEND_MESSAGES",
     async run(message, args, client) {
         try {
+            //Getting uptime the old way
             let totalSeconds = client.uptime / 1000
             let days = Math.floor(totalSeconds / 86400)
             let hours = Math.floor(totalSeconds / 3600)
@@ -29,7 +30,7 @@ module.exports = new Command({
             let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`
 
             const baseChannelInfoId = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASECHANNELINFOID
+                (channel) => channel.id === config.baseChannelInfoId
             )
             const embed1 = new Discord.MessageEmbed()
                 .setTitle("Caden-San")
@@ -61,9 +62,9 @@ module.exports = new Command({
 
             await baseChannelInfoId.send({ embeds: [embed1] })
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`

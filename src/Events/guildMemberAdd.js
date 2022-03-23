@@ -8,9 +8,7 @@ let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
 module.exports = new Event("guildMemberAdd", async (client, member) => {
-    //test line
-    //console.log(`${currentDate} [MEMBER EVENT] New member in ${member.guild.name} !`)
-
+    //Only send welcome message if welcone message is enabled
     let guildOfMember = member.guild
     let guildCard = await client.DataBase.fetchGuild(guildOfMember.id)
     if (!guildCard.addons.welcome.enabled) return
