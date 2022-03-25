@@ -43,7 +43,7 @@ module.exports = new Command({
             })
         } catch (error) {
             streamKonsole.log(
-                `${currentDate} An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
+                `${currentDate} : ${error}`
             )
             const channelDev = client.channels.cache.find(
                 (channel) => channel.id === config.DevLogChannelId

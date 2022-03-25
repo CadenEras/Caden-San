@@ -15,3 +15,5 @@
     "logFileStreamPath": "path-to-your-log-file(including-file-name)",
     "dsnSentry": "if-using-sentry-your-dns-string goes-here"
 }
+
+`${currentDate} : ${error}`

@@ -60,9 +60,9 @@ module.exports = new Command({
                 `You've been kicked from ${message.guild.name} for ${reason} by ${message.author.tag}.`
             )
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`

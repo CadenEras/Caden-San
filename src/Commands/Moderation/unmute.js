@@ -63,9 +63,9 @@ module.exports = new Command({
 
             message.channel.send(`<@${toUnmute.id}> has been unmuted by ${message.author.tag}.`)
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`

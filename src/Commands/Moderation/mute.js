@@ -89,11 +89,10 @@ module.exports = new Command({
                                 ADD_REACTIONS: false,
                             },
                             0
-                        )
+                        ).catch((error) => {
+                            streamKonsole.log(`${currentDate} : ${error}`)
+                        })
                     })
-                    console.log(
-                        `[ROLE EVENT] Time : ${client.readyAt}. Change successfully applied in ${message.guild.name}'s each channel for ${defaultMuteRole.name} role.`
-                    )
 
                     message.channel.send(
                         "Mute role successfully added ! Please check the permissions of the role and its position!!! If you see something wrong, contact us via the support server or create a ticket on Caden-San's GitHub page."
@@ -125,9 +124,9 @@ module.exports = new Command({
                 `<@${member.id}> has been muted by ${message.author.tag} for undefined time. Reason : ${reason}`
             )
         } catch (error) {
-            streamKonsole.log(error)
+            streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
-                (channel) => channel.id === process.env.BASEDEVLOGCHANNELID
+                (channel) => channel.id === config.DevLogChannelId
             )
             channelDev.channel.send(
                 `An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`
