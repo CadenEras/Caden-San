@@ -27,12 +27,19 @@ module.exports = new Command({
             if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
 
             let muteRole = args.slice(1).join(" ")
+            
+            let fetched = message.guild.roles.cache.find((role) => role.id === args[1])
+            
+            if (!fetched) {
+                return message.channel.send("This Id is not a valid role. Please retry.")
+            }
+            
             guildData.muteRoleId = muteRole
             await guildData.save()
 
             message.guild.muteRole = muteRole.toLowerCase()
 
-            return message.channel.send(`The new mute role is : \`<@${muteRole}>\` (${muteRole})`)
+            return message.channel.send(`The new mute role is : <@&${muteRole}> (${muteRole})`)
         } catch (error) {
             streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(

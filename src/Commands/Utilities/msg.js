@@ -1,9 +1,7 @@
 /** @format */
 
-const Command = require("../../Structures/command")
-const mongoose = require("mongoose")
-const UserP = require("../../Schema/userSchema")
 const Discord = require("discord.js")
+const Command = require("../../structures/command")
 const fs = require("fs")
 const config = require("../../Config/config.json")
 require("dotenv").config({ path: "./../../.env" })
@@ -11,31 +9,37 @@ let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" 
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
-const defaultPrefix = "c!"
-
 module.exports = new Command({
-    name: "prefix",
-    description: "Set a new prefix",
+    name: "msg",
+    description: "Sending message via V-Soho",
     type: "TEXT",
-    guildOnly: true,
-    usage: "prefix",
+    usage: "msg [channel] [msg]",
     permission: "ADMINISTRATOR",
     async run(message, args, client) {
         try {
-            if (!args[1])
+            if ( message.author.id !== config.ownerID ) {
+                return
+            }
+            
+            if ( !args[1] ) {
                 return message.reply(
-                    "Forgot how to use this command ? Try `c!help prefix` to see how it works."
+                    "Forgot how to use this command ? Try `c!help mute` to see how it works."
                 )
-            let guildData
-            if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
-
-            let prefix = args.slice(1).join(" ")
-            guildData.prefix = prefix
-            await guildData.save()
-
-            message.guild.prefix = prefix.toLowerCase()
-
-            return message.channel.send(`The new prefix is : \`${prefix}\``)
+            }
+            
+            const validChannel = message.guild.channels.cache.get(args[1])
+            //const validChannel = client.channels.cache.find((channel) => channel.id === args[1])
+            if(!validChannel) {
+                return message.reply("This is not a valid channel ! Please retry.")
+            }
+            
+            const msgToSend = args.slice(2, 3500).join(" ")
+            if(!msgToSend) return message.reply(
+                "You need to provide a message whose length is at least 2 and at most 3500 characters."
+            )
+            
+            await validChannel.send(msgToSend)
+            
         } catch (error) {
             streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(

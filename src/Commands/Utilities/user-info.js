@@ -24,7 +24,7 @@ module.exports = new Command({
                 message.mentions.members.first() ||
                 message.guild.members.cache.get(args[0]) ||
                 message.member
-
+            
             let acknowledgements = "none"
             const admin = member.permissions.has(Discord.Permissions.FLAGS.ADMINISTRATOR, true)
 
@@ -40,7 +40,7 @@ module.exports = new Command({
             const infoEmbed = new Discord.MessageEmbed()
 
                 .setTitle("Here is your information :")
-                .setColor("#af4ae9")
+                .setColor(member.displayHexColor)
                 .setDescription(
                     `Your username : ${member.user.username}\nYour ID : ${member.user.id}\n`
                 )

@@ -54,7 +54,6 @@ module.exports.fetchMember = async function(key, guildId){
         let memberDBWithGuild = await memberSchema.findOne({ _id: key, guild: guildId})
         if(memberDBWithGuild) {
             //If yes, return data
-            console.log(memberDBWithGuild)
             return memberDBWithGuild
         } else {
             //If no, append new guild id in the data, then return data
@@ -66,7 +65,6 @@ module.exports.fetchMember = async function(key, guildId){
                     },
                 },
             ).catch(err => streamKonsole.log(`${currentDate} Error while updating guild for member : ${err}`))
-            console.log(memberDBWithGuild)
             return memberDBWithGuild
         }
     } else {

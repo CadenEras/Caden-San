@@ -2,7 +2,6 @@
 
 const Command = require("../../Structures/command")
 const mongoose = require("mongoose")
-const UserP = require("../../Schema/userSchema")
 const Discord = require("discord.js")
 const fs = require("fs")
 const config = require("../../Config/config.json")
@@ -11,31 +10,36 @@ let logFileStream = fs.createWriteStream(config.logFileStreamPath, { flags: "a" 
 let streamKonsole = new console.Console(logFileStream, logFileStream, false)
 let currentDate = Date.now()
 
-const defaultPrefix = "c!"
-
 module.exports = new Command({
-    name: "prefix",
-    description: "Set a new prefix",
+    name: "setMemberRole",
+    description: "Set your custom mute role",
     type: "TEXT",
     guildOnly: true,
-    usage: "prefix",
+    usage: "setMemberRole (roleID)",
     permission: "ADMINISTRATOR",
     async run(message, args, client) {
         try {
             if (!args[1])
                 return message.reply(
-                    "Forgot how to use this command ? Try `c!help prefix` to see how it works."
+                    "Forgot how to use this command ? Try `c!help setMemberRole` to see how it works."
                 )
             let guildData
             if (!guildData) guildData = await client.DataBase.fetchGuild(message.guild.id)
-
-            let prefix = args.slice(1).join(" ")
-            guildData.prefix = prefix
+            
+            let memberRole = args.slice(1).join(" ")
+            
+            let fetched = message.guild.roles.cache.find((role) => role.id === args[1])
+            
+            if (!fetched) {
+                return message.channel.send("This Id is not a valid role. Please retry.")
+            }
+            
+            guildData.memberRoleId = memberRole
             await guildData.save()
-
-            message.guild.prefix = prefix.toLowerCase()
-
-            return message.channel.send(`The new prefix is : \`${prefix}\``)
+            
+            message.guild.memberRole = memberRole.toLowerCase()
+            
+            return message.channel.send(`The new member role is : <@&${memberRole}> (${memberRole})`)
         } catch (error) {
             streamKonsole.log(`${currentDate} : ${error}`)
             const channelDev = client.channels.cache.find(
