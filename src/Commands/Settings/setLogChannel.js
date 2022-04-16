@@ -1,52 +1,46 @@
 /** @format */
 
 const Command = require( "../../Structures/command" );
+const mongoose = require( "mongoose" );
+const Discord = require( "discord.js" );
 const fs = require( "fs" );
 const config = require( "../../Config/config.json" );
+const { channel } = require( "diagnostics_channel" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
 let currentDate = Date.now().toString();
 
 module.exports = new Command( {
-	name: "clear",
-	description: "Delete an amount of messages, the number must be between 1 and 100",
+	name: "setLogChannel",
+	description: "Set your custom mute role",
 	type: "TEXT",
 	guildOnly: true,
-	permission: "MANAGE_MESSAGES",
-	usage: "clear [number]",
+	usage: "setLogChannel (channelID)",
+	permission: "ADMINISTRATOR",
 	async run( message, args, client ) {
 		try {
 			if( !args[1] )
 				return message.reply(
-					"Forgot how to use this command ? Try `c!help clear` to see how it works !",
+					"Forgot how to use this command ? Try `c!help setLogChannel` to see how it works.",
 				);
-			const deleteCount = args[1];
+			let guildData;
+			if( !guildData ) guildData = await client.DataBase.fetchGuild( message.guild.id );
 			
-			if( !deleteCount || isNaN( deleteCount ) ) {
-				return message.reply( "Please provide a valid number." );
+			let logChannel = args.slice( 1 ).join( " " );
+			
+			let fetched = message.guild.channels.cache.find( ( ch ) => ch.id === args[1] );
+			
+			if( !fetched || fetched.type !== "GUILD_TEXT" ) {
+				return message.channel.send( "This Id is not a valid channel. Please retry." );
 			}
 			
-			const countParsed = parseInt( deleteCount );
+			guildData.logChannelId = logChannel;
+			await guildData.save();
 			
-			if( countParsed > 100 ) {
-				return message.reply(
-					"Hey ! I cannot delete more than 100 messages at the same time. Retry with a valide amount between 1 and 100.",
-				);
-			}
+			message.guild.logChannel = logChannel.toLowerCase();
 			
-			if( countParsed < 1 ) {
-				return message.reply(
-					"Hey ! Are you to create a black hole ?  Retry with a valide number between 1 and 100!",
-				);
-			}
-			
-			await message.channel.bulkDelete( countParsed );
-			const replyDelete = await message.channel.send(
-				`I cleared ${countParsed} messages in #${message.channel.name} !`,
-			);
-			
-			setTimeout( () => replyDelete.delete(), 4000 );
+			return message.channel.send( `The new log channel is : <#${logChannel}> (${logChannel})` );
 		} catch ( error ) {
 			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
 			
