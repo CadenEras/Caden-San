@@ -2,9 +2,16 @@
 
 const Discord = require( "discord.js" );
 const Event = require( "../Structures/event" );
+const config = require( "./../Config/config.json" );
+const fs = require( "fs" );
+let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
+let streamKonsole = new console.Console( logFileStream, logFileStream, false );
+let currentDate = Date.now().toString();
 
 module.exports = new Event( "interactionCreate", ( client, interaction ) => {
 	if( interaction.user.bot || !interaction.isCommand() || !interaction.guild ) return;
+	
+	//TODO slash command to add
 	
 	const args = [
 		interaction.commandName,

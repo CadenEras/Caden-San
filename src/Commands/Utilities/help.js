@@ -21,6 +21,8 @@ module.exports = new Command( {
 	async run( message, args, client ) {
 		const command = client.commands.find( ( cmd ) => cmd.name === args[1] );
 		
+		//TODO update this one
+		
 		if( !command ) {
 			const embed1 = new Discord.MessageEmbed()
 				

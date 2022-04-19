@@ -64,8 +64,11 @@ module.exports = new Command( {
 			if( !reason ) reason = "No reason was provided.";
 			
 			message.channel.send(
-				`<@${member.id}> has been muted by ${message.author.tag} for undefined time. Reason : ${reason}`,
+				`<@${member.id}> has been warned by ${message.author.tag} for undefined time. Reason : ${reason}`,
 			);
+			
+			//TODO: add warn in db
+			
 		} catch ( error ) {
 			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
 			

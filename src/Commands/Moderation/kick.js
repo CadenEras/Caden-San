@@ -53,7 +53,7 @@ module.exports = new Command( {
 			message.channel.send( { embeds: [ banEmbed ] } );
 			
 			//...then kick the offender
-			//await offender.kick()
+			await offender.kick()
 			
 			//Sending a private message to the offender
 			await offender.user.send(

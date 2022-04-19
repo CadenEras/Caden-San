@@ -22,6 +22,8 @@ module.exports = new Command( {
 					"Forgot how to use this command ? Try `c!help unmute` to see how it works.",
 				);
 			
+			//TODO turn this command into "pardon command"
+			
 			//Checking if there is a role registered in the db by the owner of the guild
 			let guildCard;
 			if( !guildCard ) {
