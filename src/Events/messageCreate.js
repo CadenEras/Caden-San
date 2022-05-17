@@ -90,7 +90,7 @@ module.exports = new Event( "messageCreate", async ( client, message ) => {
 		//... Then run the command !
 		command.run( message, args, client, data );
 	} catch ( error ) {
-		//handle error
+		//handle error (always sending errors to Sentry too)
 		Sentry.captureException(error);
 		streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
 		

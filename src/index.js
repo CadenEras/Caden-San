@@ -14,9 +14,11 @@ const Client = require( "./Structures/client" );
 const mongoose = require( "mongoose" );
 const config = require( "./Config/config.json" );
 const fs = require( "fs" );
+
 //Using Sentry here => sentry.io
 const Sentry = require( "@sentry/node" );
 const Tracing = require( "@sentry/tracing" );
+
 //Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );

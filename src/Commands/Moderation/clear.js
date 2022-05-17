@@ -3,6 +3,7 @@
 const Command = require( "../../Structures/command" );
 const fs = require( "fs" );
 const config = require( "../../Config/config.json" );
+const Sentry = require( "@sentry/node" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
@@ -48,6 +49,7 @@ module.exports = new Command( {
 			
 			setTimeout( () => replyDelete.delete(), 4000 );
 		} catch ( error ) {
+			Sentry.captureException(error);
 			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
 			
 			const channelDev = client.guilds.cache.get( config.baseGuildId ).channels.cache.find(

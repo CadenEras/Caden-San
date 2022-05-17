@@ -5,7 +5,7 @@ const Data = require( "./../DataBase/databases" );
 const Discord = require( "discord.js" );
 
 /**
- * define the type of each parameter the run fonction bellow will take
+ * define the type of each parameter the run function bellow will take
  * @param {Discord.Message | Discord.CommandInteraction} message
  * @param {string[]} args
  * @param {Client} client

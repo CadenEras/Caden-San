@@ -11,6 +11,8 @@ let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a"
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
 let currentDate = Date.now().toString();
 
+//Not used/working
+
 let updtMsgAbout = ( module.exports = new Job( "30 * * * * *", function( jClient ) {
 	jClient = client;
 	const cadenChannel = jClient.channels.cache.find(

@@ -58,6 +58,7 @@ class Client extends Discord.Client {
 			
 			//Slash command handler
 			//Actually not working
+			//TODO: See how make it work with the actual structure
 			const slashCommands = commands
 				.filter( ( command ) => [ "BOTH", "SLASH" ].includes( command.type ) )
 				.map( ( command ) => ( {

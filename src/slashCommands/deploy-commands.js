@@ -1,5 +1,6 @@
 /** @format */
 
+//In development
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types');
 const config = require('../Config/config.json');
