@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="Mongo-Lake-Caden">
+  <database-model serializer="dbm" dbms="MONGO" family-id="MONGO" format-version="4.32">
+    <root id="1">
+      <ServerVersion>4.4.12</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="Caden-San_Discord"/>
+    <schema id="3" parent="1" name="admin"/>
+    <schema id="4" parent="1" name="local"/>
+    <table id="5" parent="2" name="guilds"/>
+    <table id="6" parent="2" name="logs"/>
+    <table id="7" parent="2" name="members"/>
+    <table id="8" parent="2" name="userps"/>
+    <column id="9" parent="5" name="_id">
+      <DataType>String|12s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="10" parent="5" name="__v">
+      <DataType>Int32|4s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="11" parent="5" name="addons">
+      <DataType>Object|4999544s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="12" parent="5" name="guildName">
+      <DataType>String|12s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="13" parent="5" name="addons.welcome">
+      <DataType>Object|4999544s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="14" parent="5" name="prefix">
+      <DataType>String|12s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="15" parent="5" name="addons.welcome.channelId">
+      <DataType>String|12s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="16" parent="5" name="systemChannelId">
+      <DataType>String|12s</DataType>
+      <Position>3</Position>
+    </column>
+    <column id="17" parent="5" name="addons.welcome.enabled">
+      <DataType>Boolean|12s</DataType>
+      <Position>4</Position>
+    </column>
+    <column id="18" parent="5" name="addons.welcome.message">
+      <DataType>String|12s</DataType>
+      <Position>5</Position>
+    </column>
+    <column id="19" parent="7" name="_id">
+      <DataType>String|12s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="20" parent="7" name="__v">
+      <DataType>Int32|4s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="21" parent="7" name="createdAt">
+      <DataType>ISODate|91s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="22" parent="7" name="guild">
+      <DataType>String|12s</DataType>
+      <Position>2</Position>
+    </column>
+    <column id="23" parent="8" name="_id">
+      <DataType>String|12s</DataType>
+      <Position>1</Position>
+    </column>
+    <column id="24" parent="8" name="__v">
+      <DataType>Int32|4s</DataType>
+      <Position>2</Position>
+    </column>
+  </database-model>
+</dataSource>

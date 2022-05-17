@@ -17,7 +17,6 @@ const fs = require( "fs" );
 //Using Sentry here => sentry.io
 const Sentry = require( "@sentry/node" );
 const Tracing = require( "@sentry/tracing" );
-const { getCurrentHub } = require( "@sentry/node" );
 //Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
@@ -50,6 +49,7 @@ try {
 	mongoose.connect( config.mongo, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
+		keepAlive: true, keepAliveInitialDelay: 300000
 	} );
 	
 	//Catching Mongo events
@@ -61,11 +61,12 @@ try {
 		streamKonsole.log( `${currentDate} => Caden-San has disconnected from the database !` );
 	} );
 	
-	mongoose.connection.on( "error", ( error ) => {
+	//Not necessary I think....
+	/*mongoose.connection.on( "error", ( error ) => {
 		streamKonsole.log(
 			`${currentDate} => Caden-San encountered an error with the connection to the database ! Error : ${error}`,
 		);
-	} );
+	} );*/
 	
 	//Starting the client
 	const client = new Client();
@@ -84,6 +85,7 @@ try {
 
 //Prevent from crashing on uncaught Exception from the try catch
 process.on( "uncaughtException", function( err ) {
+	Sentry.captureException(err);
 	console.log( err && err.stack ? err.stack : err );
 	streamKonsole.log( err && err.stack ? err.stack : err );
 } );

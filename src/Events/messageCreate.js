@@ -4,6 +4,7 @@ const Discord = require( "discord.js" );
 const Event = require( "../Structures/event" );
 const config = require( "./../Config/config.json" );
 const fs = require( "fs" );
+const Sentry = require("@sentry/node");
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
 let currentDate = Date.now().toString();
@@ -90,6 +91,7 @@ module.exports = new Event( "messageCreate", async ( client, message ) => {
 		command.run( message, args, client, data );
 	} catch ( error ) {
 		//handle error
+		Sentry.captureException(error);
 		streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
 		
 		const channelDev = client.guilds.cache.get( config.baseGuildId ).channels.cache.find(

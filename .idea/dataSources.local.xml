@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal" created-in="PS-213.6461.83">
+    <data-source name="Mongo-Lake-Caden" uuid="42c62f29-cd70-403c-8501-ae7fd2e17622">
+      <database-info product="Mongo DB" version="4.4.12" jdbc-version="4.2" driver-name="MongoDB JDBC Driver" driver-version="1.13" dbms="MONGO" exact-version="4.4.12" exact-driver-version="1.13" />
+      <case-sensitivity plain-identifiers="mixed" quoted-identifiers="mixed" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>caden-san</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="schema">
+            <name qname="@" />
+            <name qname="Caden-San_Discord" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+    </data-source>
+  </component>
+</project>

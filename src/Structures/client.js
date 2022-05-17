@@ -8,6 +8,7 @@ const fs = require( "fs" );
 const DataBase = require( "./../DataBase/databases" );
 const Util = require( "./../Base-Functions/setChannelGuild" );
 const config = require( "../Config/config.json" );
+const Sentry = require("@sentry/node");
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
 let currentDate = Date.now().toString();
@@ -51,7 +52,7 @@ class Client extends Discord.Client {
 			for ( const file of commands ) {
 				const command = require( `../Commands/${dirs}/${file}` );
 				
-				streamKonsole.log( `Loading Caden\'s fonctions... Charging : "${command.name}"...` );
+				streamKonsole.log( `Loading Caden\'s functions... Charging : "${command.name}"...` );
 				this.commands.set( command.name, command );
 			}
 			
@@ -93,6 +94,7 @@ class Client extends Discord.Client {
 		
 		//Prevent from crashing on unhandled Rejection
 		process.on( "unhandledRejection", ( error ) => {
+			Sentry.captureException(error);
 			streamKonsole.log( `${currentDate} => Unhandled error occurred:\n`, error );
 		} );
 	}
