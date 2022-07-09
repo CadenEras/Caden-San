@@ -14,7 +14,6 @@ module.exports = new Command( {
 	name: "mute",
 	description: "To mute a user for undefined time.",
 	permission: "MANAGE_MESSAGES",
-	type: "TEXT",
 	usage: "mute [user] [reason]",
 	guildOnly: true,
 	async run( message, args, client ) {

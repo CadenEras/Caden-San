@@ -15,7 +15,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "settings",
 	description: "Get ready with me !",
-	type: "TEXT",
 	guildOnly: true,
 	usage: "c!settings",
 	permission: "ADMINISTRATOR",

@@ -15,7 +15,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "setLogChannel",
 	description: "Set your custom mute role",
-	type: "TEXT",
 	guildOnly: true,
 	usage: "setLogChannel (channelID)",
 	permission: "ADMINISTRATOR",

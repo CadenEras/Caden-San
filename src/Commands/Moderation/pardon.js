@@ -14,7 +14,6 @@ module.exports = new Command( {
 	description: "To unmute a user.",
 	permission: "MUTE_MEMBERS",
 	usage: "unmute [user]",
-	type: "TEXT",
 	guildOnly: true,
 	async run( message, args, client ) {
 		try {

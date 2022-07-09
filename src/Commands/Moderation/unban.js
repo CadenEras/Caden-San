@@ -14,7 +14,6 @@ module.exports = new Command( {
 	description: "To unban a member with their ID.",
 	permission: "BAN_MEMBERS",
 	usage: "unban [userID]",
-	type: "TEXT",
 	guildOnly: true,
 	async run( message, args, client ) {
 		try {

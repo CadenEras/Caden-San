@@ -14,7 +14,6 @@ module.exports = new Command( {
 	name: "kick",
 	description: "Kick an user from the server.",
 	usage: "kick [user] [reason]",
-	type: "TEXT",
 	guildOnly: true,
 	permission: "KICK_MEMBERS",
 	async run( message, args, client ) {

@@ -9,6 +9,7 @@ const DataBase = require( "./../DataBase/databases" );
 const Util = require( "./../Base-Functions/setChannelGuild" );
 const config = require( "../Config/config.json" );
 const Sentry = require("@sentry/node");
+const Process = require( "process" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
 let currentDate = Date.now().toString();
@@ -38,7 +39,7 @@ class Client extends Discord.Client {
 		this.util = Util;
 	}
 	
-	start( token ) {
+	async start( token ) {
 		//Reading command files
 		fs.readdirSync( "./Commands" ).forEach( ( dirs ) => {
 			const commands = fs
@@ -58,8 +59,9 @@ class Client extends Discord.Client {
 			
 			//Slash command handler
 			//Actually not working
-			//TODO: See how make it work with the actual structure
-			const slashCommands = commands
+			//TODO: See how to make it work with the actual structure
+			//==========================================================
+			/*const slashCommands = commands
 				.filter( ( command ) => [ "BOTH", "SLASH" ].includes( command.type ) )
 				.map( ( command ) => ( {
 					name: command.name.toLowerCase(),
@@ -68,14 +70,16 @@ class Client extends Discord.Client {
 					options: command.slashCommandOptions,
 					defaultPermission: true,
 				} ) );
-			
+				
 			this.removeAllListeners();
 			
 			this.on( "ready", async () => {
 				const cmds = await this.application.commands.set( slashCommands );
 				
-				cmds.forEach( ( cmd ) => streamKonsole.log( `Slash Command ${cmd.name} registered` ) );
-			} );
+				await cmds.forEach( ( cmd ) => streamKonsole.log( `Slash Command ${cmd.name} registered` ) );
+			} );*/
+			
+			//==========================================================
 		} );
 		
 		//Reading event files
@@ -91,13 +95,18 @@ class Client extends Discord.Client {
 			} );
 		
 		//Will generate an API Error after reaching the 1000th login/day (v13)
-		this.login( token );
+		await this.login( token );
 		
-		//Prevent from crashing on unhandled Rejection
+		//Prevent from crashing on unhandled Rejection...
 		process.on( "unhandledRejection", ( error ) => {
 			Sentry.captureException(error);
-			streamKonsole.log( `${currentDate} => Unhandled error occurred:\n`, error );
+			streamKonsole.log( `${currentDate} => Unhandled rejection occurred:\n`, error );
 		} );
+		//...and uncaught exception
+		Process.on("uncaughtException", (error) => {
+			Sentry.captureException(error);
+			streamKonsole.log( `${currentDate} => Uncaught exception occurred:\n`, error )
+		})
 	}
 }
 

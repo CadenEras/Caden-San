@@ -27,7 +27,10 @@ module.exports = new Command( {
 					`Guild's name : ${message.guild.name}\nGuild's ID : ${message.guild.id}\nCreated on : ${message.guild.createdAt}\nMember count : ${message.guild.memberCount}\nOwner <@${message.guild.ownerId}> (${message.guild.ownerId})\n`,
 				)
 				.setThumbnail( `${message.guild.iconURL()}` )
-				.setAuthor( `${message.guild.name}`, `${message.guild.iconURL()}` )
+				.setAuthor( {
+					name:`${message.guild.name}`,
+					iconURL:`${message.guild.iconURL()}`
+				})
 				.setTimestamp();
 			
 			await message.channel.send( { embeds: [ embed1 ] } );

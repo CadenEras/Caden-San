@@ -3,6 +3,7 @@
 const Command = require( "../../Structures/command" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 const Discord = require( "discord.js" );
+const pagination = require("discord.js-pagination");
 const fs = require( "fs" );
 const config = require( "../../Config/config.json" );
 const Sentry = require( "@sentry/node" );
@@ -15,7 +16,6 @@ module.exports = new Command( {
 	description:
 		"Display the list of commands if you just type !help or if you type !help command display info about the command!",
 	guildOnly: true,
-	type: "TEXT",
 	cooldown: 5,
 	usage: "help or help [command]",
 	permission: "SEND_MESSAGES",
@@ -24,7 +24,54 @@ module.exports = new Command( {
 		
 		//TODO update this one
 		
-		if( !command ) {
+		try {
+			let pause = ms => new Promise( ( timeOut, j ) => setTimeout( timeOut, ms ) );
+			let helpEmbed = {};
+			fs.readdir( "../../Commands/", ( err2, manual ) => {
+				for ( let i = 0; i < manual.length; i ++ ) {
+					helpEmbed[i] = new Discord.MessageEmbed();
+					helpEmbed[i].setTitle( manual[i] );
+					helpEmbed[i].setColor( "#af4ae9" );
+					const j = i;
+					fs.readdir( `../../Commands/${manual[i]}/`, ( err1, files1 ) => {
+						files1.forEach( ( f2, i2 ) => {
+							const cmd = f2.replace( ".js", "" );
+							helpEmbed[j].addField( cmd, "testing" );
+						} );
+					} );
+				}
+			} );
+			await pause( 50 );
+			let numPage = [];
+			let f = 0;
+			for ( let step = 0; f === 0; step ++ ) {
+				if( helpEmbed[numPage.length] ) {
+					numPage[numPage.length] = helpEmbed[numPage.length];
+					console.log( "+1" );
+				} else {
+					f = 1;
+				}
+			}
+			await pause( 50 );
+			const emojis = [ "◀", "▶" ];
+			
+			await pagination( message, numPage, emojis );
+		} catch ( error ) {
+			Sentry.captureException(error);
+			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
+			
+			const channelDev = client.guilds.cache.get( config.baseGuildId ).channels.cache.find(
+				( channel ) => channel.id === config.baseDevLogChannelId,
+			);
+			channelDev.send(
+				`An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`,
+			);
+			return message.reply(
+				`Something went wrong... You should report that in my maintenance server with your guild id and the command you tried to use.`,
+			);
+		}
+		
+		/*if( !command ) {
 			const embed1 = new Discord.MessageEmbed()
 				
 				.setTitle( "Caden-San's Library" )
@@ -33,7 +80,10 @@ module.exports = new Command( {
 					"Get all the help you need with me !\n Try `c!help [command]` for more info !",
 				)
 				.setThumbnail( "https://i.imgur.com/ek6dDxa.png" )
-				.setAuthor( "Caden-San's help module", "https://i.imgur.com/ek6dDxa.png" )
+				.setAuthor( {
+					name: "Caden-San's help module",
+					iconURL: "https://i.imgur.com/ek6dDxa.png"
+				} )
 				.addFields(
 					{
 						name: "Utilities",
@@ -49,15 +99,13 @@ module.exports = new Command( {
 					},
 				)
 				.setTimestamp()
-				.setFooter( "Made By CadenEras#2020, with love <3" );
+				.setFooter( {
+					text: "Made By CadenEras#2020, with love <3"
+				} );
 			
 			await message.channel.send( { embeds: [ embed1 ] } );
 		} else {
 			{
-				/* fs.readFile(__dirname + '/../../../config/commands_library.json', (err, dataJson) => {
-				 if (err) throw err;
-				 let commands_library = JSON.parse(dataJson);
-				 let commandName = command[1];*/
 				try {
 					const embed2 = new Discord.MessageEmbed()
 						
@@ -65,7 +113,10 @@ module.exports = new Command( {
 						.setColor( "#af4ae9" )
 						.setDescription( "Get all the help you need with me !" )
 						.setThumbnail( "https://i.imgur.com/ek6dDxa.png" )
-						.setAuthor( "Caden-San's help module", "https://i.imgur.com/ek6dDxa.png" )
+						.setAuthor( {
+							name: "Caden-San's help module",
+							iconURL: "https://i.imgur.com/ek6dDxa.png"
+						} )
 						.addField(
 							`Command: ${message.guild.prefix}${command.name}`,
 							`Description: ${command.description}\n` +
@@ -73,24 +124,13 @@ module.exports = new Command( {
 							`Permission needed: ${command.permission}\n`,
 						)
 						.setTimestamp()
-						.setFooter( "Made By CadenEras#2020, with love <3" );
+						.setFooter( {
+							text: "Made By CadenEras#2020, with love <3"
+						} );
 					
 					message.channel.send( { embeds: [ embed2 ] } );
-				} catch ( error ) {
-					Sentry.captureException(error);
-					streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
-					
-					const channelDev = client.guilds.cache.get( config.baseGuildId ).channels.cache.find(
-						( channel ) => channel.id === config.baseDevLogChannelId,
-					);
-					channelDev.send(
-						`An Error occurred in ${message.guild.name} (${message.guild.id}). Stack error log : ${error}`,
-					);
-					return message.reply(
-						`Something went wrong... You should report that in my maintenance server with your guild id and the command you tried to use.`,
-					);
 				}
 			}
-		}
+		}*/
 	},
 } );

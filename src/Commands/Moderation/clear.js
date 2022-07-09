@@ -12,7 +12,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "clear",
 	description: "Delete an amount of messages, the number must be between 1 and 100",
-	type: "TEXT",
 	guildOnly: true,
 	permission: "MANAGE_MESSAGES",
 	usage: "clear [number]",

@@ -17,7 +17,6 @@ const defaultPrefix = "c!";
 module.exports = new Command( {
 	name: "prefix",
 	description: "Set a new prefix",
-	type: "TEXT",
 	guildOnly: true,
 	usage: "prefix",
 	permission: "ADMINISTRATOR",

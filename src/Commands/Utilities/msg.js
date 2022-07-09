@@ -13,7 +13,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "msg",
 	description: "Sending message via V-Soho",
-	type: "TEXT",
 	usage: "msg [channel] [msg]",
 	permission: "ADMINISTRATOR",
 	async run( message, args, client ) {

@@ -14,7 +14,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "setMuteRole",
 	description: "Set your custom mute role",
-	type: "TEXT",
 	guildOnly: true,
 	usage: "setMuteRole (roleID)",
 	permission: "ADMINISTRATOR",

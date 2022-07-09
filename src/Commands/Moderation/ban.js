@@ -13,7 +13,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "ban",
 	description: "Ban an user from the server with a reason",
-	type: "TEXT",
 	guildOnly: true,
 	permission: "BAN_MEMBERS",
 	usage: "ban [user] [reason]",

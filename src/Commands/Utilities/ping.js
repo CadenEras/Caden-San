@@ -12,7 +12,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "ping",
 	description: "Get the bot response time !",
-	type: "BOTH",
 	guildOnly: true,
 	usage: "ping",
 	permission: "SEND_MESSAGES",

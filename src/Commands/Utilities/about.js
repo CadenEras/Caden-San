@@ -13,7 +13,6 @@ let currentDate = Date.now().toString();
 module.exports = new Command( {
 	name: "about",
 	description: "Get information about Caden-San",
-	type: "TEXT",
 	guildOnly: true,
 	cooldown: 5,
 	usage: "c!about",

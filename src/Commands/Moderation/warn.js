@@ -14,7 +14,6 @@ module.exports = new Command( {
 	name: "warn",
 	description: "To warn a user",
 	permission: "MANAGE_MESSAGES",
-	type: "TEXT",
 	usage: "warn [user] [reason]",
 	guildOnly: true,
 	async run( message, args, client ) {

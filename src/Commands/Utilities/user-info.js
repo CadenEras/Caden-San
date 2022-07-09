@@ -13,9 +13,8 @@ let currentDate = Date.now().toString();
 
 module.exports = new Command( {
 	name: "user-info",
-	description: "Shows the author of the message or the mentioned user, their informations!",
+	description: "Shows the author of the message or the mentioned user, their information!",
 	guildOnly: true,
-	type: "TEXT",
 	cooldown: 5,
 	usage: "user-info or user-info [user mention]",
 	permission: "MANAGE_MESSAGES",
@@ -43,13 +42,13 @@ module.exports = new Command( {
 				.setTitle( "Here is your information :" )
 				.setColor( member.displayHexColor )
 				.setDescription(
-					`Your username : ${member.user.username}\nYour ID : ${member.user.id}\n`,
+					`Username : ${member.user.username}\nID : ${member.user.id}\n`,
 				)
 				.setThumbnail( `${member.user.displayAvatarURL( { dynamic: true } )}` )
-				.setAuthor(
-					`${message.author.username}`,
-					`${member.user.displayAvatarURL( { dynamic: true } )}`,
-				)
+				.setAuthor( {
+						name: `${message.author.username}`,
+						iconURL:`${member.user.displayAvatarURL( { dynamic: true } )}`
+				})
 				.addField(
 					"Joined this server on: ",
 					`${moment( member.joinedAt ).format( "dddd, MMMM Do YYYY" )}`,
@@ -80,7 +79,8 @@ module.exports = new Command( {
 					true,
 				)
 				.setTimestamp()
-				.setFooter( `Caden-San's info module` );
+				.setFooter( {text: `Caden-San's info module`
+				});
 			
 			await message.channel.send( { embeds: [ infoEmbed ] } );
 			
