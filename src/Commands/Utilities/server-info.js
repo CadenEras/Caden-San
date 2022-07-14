@@ -8,7 +8,8 @@ const Sentry = require( "@sentry/node" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Command( {
 	name: "server-info",
@@ -19,6 +20,7 @@ module.exports = new Command( {
 	permission: "SEND_MESSAGES",
 	async run( message, args, client ) {
 		try {
+			//todo : maybe add some information
 			const embed1 = new Discord.MessageEmbed()
 				
 				.setTitle( `Here is ${message.guild.name}'s information :` )
@@ -33,9 +35,9 @@ module.exports = new Command( {
 				})
 				.setTimestamp();
 			
+			//todo : if argument is provided, return a message to advise that it's not needed
 			await message.channel.send( { embeds: [ embed1 ] } );
 			
-			//TODO: when a raw id is typed, do not send intel about the server that sent the message, return an error instead
 		} catch ( error ) {
 			Sentry.captureException(error);
 			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );

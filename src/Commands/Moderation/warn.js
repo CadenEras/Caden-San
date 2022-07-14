@@ -8,7 +8,8 @@ const Sentry = require( "@sentry/node" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Command( {
 	name: "warn",

@@ -22,7 +22,8 @@ const Tracing = require( "@sentry/tracing" );
 //Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 //Initializing Sentry connection
 Sentry.init( {

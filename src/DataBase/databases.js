@@ -10,7 +10,8 @@ const fs = require( "fs" );
 const config = require( "../Config/config.json" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 //Create/Find Guilds Data
 module.exports.fetchGuild = async function( key, guildName, systemChannel, joignedTime ) {

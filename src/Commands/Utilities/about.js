@@ -8,7 +8,8 @@ const config = require( "../../Config/config.json" );
 const Sentry = require( "@sentry/node" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Command( {
 	name: "about",
@@ -19,6 +20,7 @@ module.exports = new Command( {
 	permission: "SEND_MESSAGES",
 	async run( message, args, client ) {
 		try {
+			//todo make this automatic
 			//Getting uptime the old way
 			let totalSeconds = client.uptime / 1000;
 			let days = Math.floor( totalSeconds / 86400 );

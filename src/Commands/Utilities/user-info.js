@@ -9,7 +9,8 @@ const Sentry = require( "@sentry/node" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Command( {
 	name: "user-info",
@@ -38,7 +39,8 @@ module.exports = new Command( {
 			}
 			
 			const infoEmbed = new Discord.MessageEmbed()
-				
+			
+			//todo : to correct when it's for someone else
 				.setTitle( "Here is your information :" )
 				.setColor( member.displayHexColor )
 				.setDescription(

@@ -7,7 +7,8 @@ const fs = require( "fs" );
 const Sentry = require("@sentry/node");
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Event( "messageCreate", async ( client, message ) => {
 	try {

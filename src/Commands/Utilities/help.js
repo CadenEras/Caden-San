@@ -9,7 +9,8 @@ const config = require( "../../Config/config.json" );
 const Sentry = require( "@sentry/node" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
-let currentDate = Date.now().toString();
+let time = Date.now();
+const currentDate = new Date(time).toISOString();
 
 module.exports = new Command( {
 	name: "help",
@@ -22,7 +23,7 @@ module.exports = new Command( {
 	async run( message, args, client ) {
 		const command = client.commands.find( ( cmd ) => cmd.name === args[1] );
 		
-		//TODO update this one
+		//TODO fix that !
 		
 		try {
 			let pause = ms => new Promise( ( timeOut, j ) => setTimeout( timeOut, ms ) );
