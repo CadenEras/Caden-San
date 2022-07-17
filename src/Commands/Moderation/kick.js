@@ -40,7 +40,7 @@ module.exports = new Command( {
 			if( !reason ) reason = "No reason was provided.";
 			
 			//...creating the case...
-			const banEmbed = new Discord.MessageEmbed()
+			const banEmbed = new Discord.EmbedBuilder()
 				.setAuthor( "Caden-San's Moderation module", "https://i.imgur.com/ek6dDxa.png" )
 				.setTitle( "Kick Case" )
 				.addField(

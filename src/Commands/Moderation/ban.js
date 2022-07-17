@@ -41,13 +41,16 @@ module.exports = new Command( {
 			if( !reason ) reason = "No reason was provided.";
 			
 			//...creating the case...
-			const banEmbed = new Discord.MessageEmbed()
-				.setAuthor( "Caden-San's Moderation module", "https://i.imgur.com/ek6dDxa.png" )
+			const banEmbed = new Discord.EmbedBuilder()
+				.setAuthor( {
+					name: "Caden-San's Moderation module",
+					icon_url: "https://i.imgur.com/ek6dDxa.png"
+				} )
 				.setTitle( "Ban Case" )
-				.addField(
-					`\`Offender :\` ${offender.user.tag} (${offender.user.id})`,
-					`\`Reason :\` ${reason}\n\`Moderator :\` ${message.author.tag} (${message.author.id})`,
-				)
+				.addFields([
+				  {name: `\`Offender :\` ${offender.user.tag} (${offender.user.id})`,
+				  value: `\`Reason :\` ${reason}\n\`Moderator :\` ${message.author.tag} (${message.author.id})`
+				  }])
 				.setColor( "#ff0000" )
 				.setThumbnail( `${offender.user.displayAvatarURL( { dynamic: true } )}` )
 				.setTimestamp();

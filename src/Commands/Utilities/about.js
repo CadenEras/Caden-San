@@ -34,7 +34,7 @@ module.exports = new Command( {
 			const baseChannelInfoId = client.channels.cache.find(
 				( channel ) => channel.id === config.baseInfoChannelId,
 			);
-			const embed1 = new Discord.MessageEmbed()
+			const embed1 = new Discord.EmbedBuilder()
 				.setTitle( "Caden-San" )
 				.setColor( "#af4ae9" )
 				.setDescription(

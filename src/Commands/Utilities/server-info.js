@@ -21,7 +21,7 @@ module.exports = new Command( {
 	async run( message, args, client ) {
 		try {
 			//todo : maybe add some information
-			const embed1 = new Discord.MessageEmbed()
+			const embed1 = new Discord.EmbedBuilder()
 				
 				.setTitle( `Here is ${message.guild.name}'s information :` )
 				.setColor( "#af4ae9" )

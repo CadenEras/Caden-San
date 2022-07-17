@@ -38,7 +38,7 @@ module.exports = new Command( {
 				acknowledgements = "Simple Member";
 			}
 			
-			const infoEmbed = new Discord.MessageEmbed()
+			const infoEmbed = new Discord.EmbedBuilder()
 			
 			//todo : to correct when it's for someone else
 				.setTitle( "Here is your information :" )
@@ -51,7 +51,7 @@ module.exports = new Command( {
 						name: `${message.author.username}`,
 						iconURL:`${member.user.displayAvatarURL( { dynamic: true } )}`
 				})
-				.addField(
+				.addFields(
 					"Joined this server on: ",
 					`${moment( member.joinedAt ).format( "dddd, MMMM Do YYYY" )}`,
 					true,

@@ -20,7 +20,7 @@ module.exports = new Event( "ready", async ( client ) => {
 		activities: [
 			{
 				name: "the gatekeeper | c!help",
-				type: "PLAYING",
+				type: 0,
 			},
 		],
 		status: "online",

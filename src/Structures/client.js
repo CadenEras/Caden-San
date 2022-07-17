@@ -3,7 +3,7 @@
 const Discord = require( "discord.js" );
 const Command = require( "./Command.js" );
 const Event = require( "./Event.js" );
-const intents = new Discord.Intents( 32767 );
+const intents = new Discord.IntentsBitField(32767 );
 const fs = require( "fs" );
 const DataBase = require( "./../DataBase/databases" );
 const Util = require( "./../Base-Functions/setChannelGuild" );
@@ -22,7 +22,7 @@ class Client extends Discord.Client {
 	constructor() {
 		super( {
 			intents,
-			partials: [ "MESSAGE", "REACTION", "CHANNEL", "GUILD_MEMBER" ],
+			partials: [ Discord.Partials.User, Discord.Partials.Message, Discord.Partials.Channel, Discord.Partials.GuildMember ],
 		} );
 		
 		//Prevent from creating another client if already existing

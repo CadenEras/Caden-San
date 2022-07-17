@@ -2,16 +2,16 @@
 
 /*
  *
- * Caden-San V4, moderation bot for discord
+ * Caden-San, moderation bot for discord
  * Created on july 2021 under GNU GPL v3 License
- * by CadenEras (Melissa Gries) CadenEras#2020(795326819346808832)
+ * by Melissa Gries (CadenEras) CadenEras#2020(795326819346808832)
  *
  */
 
 //This is the start, nothing above, everything below !
 
 const Client = require( "./Structures/client" );
-const mongoose = require( "mongoose" );
+const mongoose = require("mongoose");
 const config = require( "./Config/config.json" );
 const fs = require( "fs" );
 
@@ -22,7 +22,9 @@ const Tracing = require( "@sentry/tracing" );
 //Redirecting the output in a file. The two lines of code below are wherever needed in the whole code
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
 let streamKonsole = new console.Console( logFileStream, logFileStream, false );
+//Setting the time for log...
 let time = Date.now();
+//...in a readable format
 const currentDate = new Date(time).toISOString();
 
 //Initializing Sentry connection
@@ -36,17 +38,18 @@ Sentry.init( {
 	tracesSampleRate: 1.0,
 } );
 
-//Setting transaction
+//Setting Sentry transaction
 const transaction = Sentry.startTransaction( {
 	op: "transaction",
 	name: "Caden Transaction",
 } );
 
-//Configuring scope
+//Configuring Sentry scope
 Sentry.configureScope( ( scope ) => {
 	scope.setSpan( transaction );
 } );
 
+//And then try everything here
 try {
 	//connecting to the database
 	mongoose.connect( config.mongo, {
@@ -73,8 +76,11 @@ try {
 	
 	//Starting the client
 	const client = new Client();
-	
-	client.start( config.token );
+	client.start( config.token )
+	  .then( r => {
+		console.log(`${currentDate} => Starting Caden-San Client : ${r}...`)
+		streamKonsole.log(`${currentDate} => Starting Caden-San Client : ${r}...`)
+	});
 	
 } catch ( e ) {
 	//Handling errors
@@ -87,8 +93,8 @@ try {
 }
 
 //Prevent from crashing on uncaught Exception from the try catch
-process.on( "uncaughtException", function( err ) {
+process.on( "uncaughtException", ( err ) => {
 	Sentry.captureException(err);
-	console.log( err && err.stack ? err.stack : err );
-	streamKonsole.log( err && err.stack ? err.stack : err );
+	console.log( `${currentDate} => Uncaught Exception : ${err}` );
+	streamKonsole.log( `${currentDate} => Uncaught Exception : ${err}` );
 } );

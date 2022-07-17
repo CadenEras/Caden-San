@@ -30,7 +30,7 @@ module.exports = new Command( {
 			let helpEmbed = {};
 			fs.readdir( "../../Commands/", ( err2, manual ) => {
 				for ( let i = 0; i < manual.length; i ++ ) {
-					helpEmbed[i] = new Discord.MessageEmbed();
+					helpEmbed[i] = new Discord.EmbedBuilder();
 					helpEmbed[i].setTitle( manual[i] );
 					helpEmbed[i].setColor( "#af4ae9" );
 					const j = i;
@@ -73,7 +73,7 @@ module.exports = new Command( {
 		}
 		
 		/*if( !command ) {
-			const embed1 = new Discord.MessageEmbed()
+			const embed1 = new Discord.EmbedBuilder()
 				
 				.setTitle( "Caden-San's Library" )
 				.setColor( "#af4ae9" )
@@ -108,7 +108,7 @@ module.exports = new Command( {
 		} else {
 			{
 				try {
-					const embed2 = new Discord.MessageEmbed()
+					const embed2 = new Discord.EmbedBuilder()
 						
 						.setTitle( "Caden-San's Library" )
 						.setColor( "#af4ae9" )

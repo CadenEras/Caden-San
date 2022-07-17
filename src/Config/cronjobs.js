@@ -29,7 +29,7 @@ let updtMsgAbout = ( module.exports = new Job( "30 * * * * *", function( jClient
 	
 	let uptime = `${days} days, ${hours} hours, ${minutes} minutes and ${seconds} seconds`;
 	
-	const embed1 = new Discord.MessageEmbed()
+	const embed1 = new Discord.EmbedBuilder()
 		.setTitle( "Caden-San" )
 		.setColor( "#af4ae9" )
 		.setDescription(

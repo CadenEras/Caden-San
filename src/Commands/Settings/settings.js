@@ -50,7 +50,7 @@ module.exports = new Command( {
 		}
 		
 		if( !args[1] ) {
-			let settingEmbed = new Discord.MessageEmbed()
+			let settingEmbed = new Discord.EmbedBuilder()
 				.setColor( "#af4ae9" )
 				.setTitle( `${message.guild.name}'s settings :` )
 				.setAuthor( "Caden-San's settings module", "https://i.imgur.com/d51nGSV.png" )

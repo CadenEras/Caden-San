@@ -10,6 +10,6 @@ let time = Date.now();
 const currentDate = new Date(time).toISOString();
 
 module.exports = new Event( "guildMemberRemove", async ( client, member ) => {
-	//to use
+	//todo: to make
 	//console.log(`${currentDate} [MEMBER EVENT] Member removed in ${member.guild.name} .`)
 } );
