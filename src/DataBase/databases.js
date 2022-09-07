@@ -5,7 +5,6 @@ let userSchema = require( "./../Schema/userSchema" );
 let guildSchema = require( "./../Schema/guildSchema" );
 let memberSchema = require( "./../Schema/memberSchema" );
 let logSchema = require( "./../Schema/log" );
-const chalk = require( "chalk" );
 const fs = require( "fs" );
 const config = require( "../Config/config.json" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );

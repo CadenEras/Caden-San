@@ -4,7 +4,6 @@ const Discord = require( "discord.js" );
 let userSchema = require( "./../Schema/userSchema" );
 let guildSchema = require( "./../Schema/guildSchema" );
 let memberSchema = require( "./../Schema/memberSchema" );
-const chalk = require( "chalk" );
 require( "dotenv" ).config( { path: "./../../.env" } );
 
 
@@ -21,7 +20,7 @@ module.exports.setChannel = async function( key, guildName, systemChannel ) {
 			systemChannelId: systemChannel,
 			createdAt: Date.now(),
 		} );
-		await guildDB.save().catch( err => console.log( chalk.red( "Error while fetching guild :", err ) ) );
+		await guildDB.save().catch( err => console.log( "Error while fetching guild :", err ) );
 		return guildDB;
 	}
 };

@@ -1,14 +1,14 @@
 /**@format */
 
-const config = require( "./../Config/config.json" );
-const mongoose = require( "mongoose" );
+const config = require("./../Config/config.json");
+const mongoose = require("mongoose");
 
 const reqString = {
 	type: String,
 	required: true,
 };
 
-const guildSchema = new mongoose.Schema( {
+const guildSchema = new mongoose.Schema({
 	_id: reqString, //guild ID
 	guildName: { type: String, required: false },
 	prefix: { type: String, default: config.prefix },
@@ -17,7 +17,7 @@ const guildSchema = new mongoose.Schema( {
 	memberRoleId: { type: String, required: false },
 	logChannelId: { type: String, required: false },
 	systemChannelId: { type: String, required: false },
-	
+
 	addons: {
 		type: Object,
 		default: {
@@ -28,6 +28,6 @@ const guildSchema = new mongoose.Schema( {
 			},
 		},
 	},
-} );
+});
 
-module.exports = mongoose.model( "Guild", guildSchema );
+module.exports = mongoose.model("Guild", guildSchema);

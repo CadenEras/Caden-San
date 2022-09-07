@@ -5,7 +5,6 @@
 ![npm](https://img.shields.io/npm/v/mongoose?color=4CFF37&label=Mongoose)
 ![npm](https://img.shields.io/npm/v/sentry?color=%239F07C3&label=Sentry)
 ![npm](https://img.shields.io/npm/v/prettier?color=%23FE6DC5&label=Prettier)
-![npm](https://img.shields.io/npm/v/chalk?label=Chalk)
 ![npm](https://img.shields.io/npm/v/cron?color=%23F4D03F&label=Cron)
 ![GitHub](https://img.shields.io/github/license/CadenEras/Caden-San?color=blueviolet)
 ![Discord](https://img.shields.io/discord/862476312568004668?label=Discord)

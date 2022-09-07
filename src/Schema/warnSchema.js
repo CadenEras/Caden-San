@@ -9,7 +9,10 @@ const reqString = {
 
 const memberSchema = new mongoose.Schema({
 	_id: { type: String }, //user's id
-	guild: { type: [String] }, //user's guild  | Array of value for storing mutiple guild id
+	member: { type: String },
+	moderator: { type: String },
+	guild: { type: String }, //user's guild  | Array of value for storing mutiple guild id
+	reason: { type: String },
 	createdAt: { type: Number, default: Date.now() },
 });
 
