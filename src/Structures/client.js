@@ -40,7 +40,6 @@ class Client extends Discord.Client {
 		 */
 
 		this.commands = new Discord.Collection();
-		this.slashCommands = new Discord.Collection();
 		this.DataBase = DataBase;
 		this.util = Util;
 	}
@@ -63,23 +62,7 @@ class Client extends Discord.Client {
 				this.commands.set(command.name, command);
 			}
 		});
-
-		//Reading Slash Commands
-		fs.readdirSync(`./SlashCommands`).forEach((dirs) => {
-			const slashCommands = fs
-				.readdirSync(`./SlashCommands/${dirs}`)
-				.filter((files) => files.endsWith(".js"));
-
-			for (const file of slashCommands) {
-				const slashCommand = require(`../Commands/${dirs}/${file}`);
-
-				streamKonsole.log(
-					`Loading Caden\'s Slash Commands... Charging : "${slashCommand.name}"...`
-				);
-				this.slashCommands.set(slashCommand.data.name, slashCommand);
-			}
-		});
-
+		
 		//Reading event files
 		fs.readdirSync(`./events`)
 			.filter((files) => files.endsWith(".js"))
