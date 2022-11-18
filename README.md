@@ -14,13 +14,8 @@
 
 # Welcome !
 
-Caden-San is an easy moderation bot. Always improving, Caden will help you keep your server functional and healthy.
+Caden-San is an easy moderation bot. Always improving, Caden will help you keep your server functional and healthy and of course, a bit funny.
 <img src="https://i.imgur.com/ek6dDxa.png" alt="caden-san avatar" style="max-width: 50%; margin-top: 20px;">
-
-## Migrating to Discord.js v13.1.0 !
-
-The new discord.js version has arrived ! The actual repo still in v12 but in a few day, it will completely be in the new
-version since a part of the syntaxe will change.
 
 ## In development !
 
@@ -28,9 +23,15 @@ Caden-San still at a project state since it's in test and new feature keep comin
 have a different name. If you want to see or use the bot features, feel free to join the maintenance server, where tests
 are performing !
 
-# Coming soon :
+## How can I use Caden-San ?
+
+Want to add Caden-San to your server ? Link coming soon~
+Caden-San is an open-source project where you are free to use the source code, but it is not recommanded to copy the source code to use it yourself because of all the
+external links and the database. But if you know what you do, feel free.
+
+## Coming soon :
 
 - Log feature for moderation
-- Full customization of role, channel and prefix
+✅ Full customization of role, channel and prefix
 - Auto-moderation
 - Web dashboard
