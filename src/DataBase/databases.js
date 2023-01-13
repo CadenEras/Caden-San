@@ -5,6 +5,7 @@ let userSchema = require( "./../Schema/userSchema" );
 let guildSchema = require( "./../Schema/guildSchema" );
 let memberSchema = require( "./../Schema/memberSchema" );
 let logSchema = require( "./../Schema/log" );
+let warnSchema = require( "./../Schema/warnSchema" );
 const fs = require( "fs" );
 const config = require( "../Config/config.json" );
 let logFileStream = fs.createWriteStream( config.logFileStreamPath, { flags: "a" } );
@@ -79,5 +80,41 @@ module.exports.fetchMember = async function( key, guildId ) {
 		} );
 		await memberDB.save().catch( err => streamKonsole.log( `${currentDate} Error while fetching member : ${err}` ) );
 		return memberDB;
+	}
+};
+
+//Create/find Members Data
+module.exports.fetchWarn = async function( key, guildId ) {
+	//Checking if member exist
+	let warnDB = await warnSchema.findOne( { _id: key } );
+	
+	if( warnDB ) {
+		//If yes, with the correct guild id stored ?
+		let memberDBWithGuild = await warnSchema.findOne( { _id: key, guild: guildId } );
+		if( memberDBWithGuild ) {
+			//If yes, return data
+			return memberDBWithGuild;
+		} else {
+			//If no, append new guild id in the data, then return data
+			warnSchema.updateOne(
+			  { _id: key },
+			  {
+				  $push: {
+					  guild: guildId,
+				  },
+			  },
+			).catch( err => streamKonsole.log( `${currentDate} Error while updating guild for member : ${err}` ) );
+			return memberDBWithGuild;
+		}
+	} else {
+		//Else, create new member
+		warnDB = new warnSchema( {
+			_id: key,
+			guild: guildId,
+			
+			createdAt: Date.now(),
+		} );
+		await warnDB.save().catch( err => streamKonsole.log( `${currentDate} Error while fetching member : ${err}` ) );
+		return warnDB;
 	}
 };
