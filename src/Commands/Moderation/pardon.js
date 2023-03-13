@@ -11,10 +11,11 @@ let time = Date.now();
 const currentDate = new Date(time).toISOString();
 
 module.exports = new Command({
-	name: "unmute",
-	description: "To unmute a user.",
-	permission: "MUTE_MEMBERS",
-	usage: "unmute [user]",
+	name: "pardon",
+	description: "To pardon a user.",
+	permission: "MANAGE_MESSAGES",
+	available: false,
+	usage: "pardon [user] [reason]",
 	async run(message, args, client) {
 		try {
 			if (!args[1])

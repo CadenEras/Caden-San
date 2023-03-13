@@ -22,7 +22,7 @@ module.exports = new Event("messageCreate", async (client, message) => {
 				message.guild.id,
 				message.guild.name,
 				message.guild.systemChannelId,
-				message.guild.joignedAt
+				message.guild.joinedAt
 			);
 		}
 		if (!message.guild.prefix) {
@@ -61,7 +61,8 @@ module.exports = new Event("messageCreate", async (client, message) => {
 		const command = client.commands.find((cmd) => cmd.name === args[0]);
 
 		//Of course, if there is no command in the message, return, or display that the command exist
-		if (!command) {
+		// Or if the command is not usable at the moment
+		if (!command || command.available === false) {
 			return;
 		} else {
 			streamKonsole.log(`${command.name} found`);
@@ -70,9 +71,6 @@ module.exports = new Event("messageCreate", async (client, message) => {
 		//Checking Author permissions...
 		const permission = message.member.permissions.has(command.permission, true);
 		if (!permission) {
-			streamKonsole.log(
-				`[Command Logger] ${Date.now}\nFrom : ${message.guild.id}, User ${message.author} used ${command.name} but is missing some permissions`
-			);
 			return message.reply(
 				"Oops ! It seems that you are trying to override your permission !"
 			);

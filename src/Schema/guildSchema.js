@@ -12,7 +12,7 @@ const guildSchema = new mongoose.Schema({
 	_id: reqString, //guild ID
 	guildName: { type: String, required: false },
 	prefix: { type: String, default: config.prefix },
-	joignedAt: Date,
+	joinedAt: Date,
 	muteRoleId: { type: String, required: false },
 	memberRoleId: { type: String, required: false },
 	logChannelId: { type: String, required: false },

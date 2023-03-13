@@ -16,7 +16,7 @@ function RunFunction(message, args, client, data) {}
 
 class Command {
 	/**
-	 * @typedef {name: string, description: string, usage: string, permission: Discord.PermissionString, type: CommandType, guildOnly: boolean, run: RunFunction} CommandOptions
+	 * @typedef {name: string, description: string, usage: string, permission: Discord.PermissionString, available: boolean, run: RunFunction} CommandOptions
 	 * @param {CommandOptions} options
 	 */
 
@@ -24,10 +24,8 @@ class Command {
 		this.name = options.name;
 		this.description = options.description;
 		this.permission = options.permission;
-		//this.type = ['BOTH', 'TEXT', 'SLASH'].includes(options.type) ? options.type : 'TEXT'    <== deprecated
-		//this.guildOnly = options.guildOnly;
 		this.usage = options.usage;
-		//this.cooldown = options.cooldown;
+		this.available = options.available;
 		this.run = options.run;
 	}
 }

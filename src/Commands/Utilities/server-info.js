@@ -40,7 +40,6 @@ module.exports = new Command({
 			streamKonsole.error(
 				`${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}`
 			);
-
 			const channelDev = client.guilds.cache
 				.get(config.baseGuildId)
 				.channels.cache.find((channel) => channel.id === config.baseDevLogChannelId);

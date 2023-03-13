@@ -15,8 +15,10 @@ module.exports = new Command({
 	name: "warn",
 	description: "To warn a user",
 	permission: "MANAGE_MESSAGES",
+	available: false,
 	usage: "warn [user] [reason]",
 	async run(message, args, client) {
+		//TODO: complete this one !
 		try {
 			if (!args[1]) {
 				return message.reply(

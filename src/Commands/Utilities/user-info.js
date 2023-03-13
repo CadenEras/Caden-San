@@ -48,33 +48,37 @@ module.exports = new Command({
 					iconURL: `${member.user.displayAvatarURL({ dynamic: true })}`,
 				})
 				.addFields(
-					"Joined this server on: ",
-					`${moment(member.joinedAt).format("dddd, MMMM Do YYYY")}`,
-					true
-				)
-				.addField(
-					"Created at: ",
-					`${moment(member.user.createdAt).format("dddd, MMMM Do YYYY, HH:mm:ss")}`,
-					true
-				)
-				.addField("Status: ", `${member.presence?.status}`, true)
-				.addField("Bannable : ", `${member.bannable}`, true)
-				.addField("Kickable : ", `${member.kickable}`, true)
-				.addField("Manageable : ", `${member.manageable}`, true)
-				.addField("Acknowledgements: ", `${acknowledgements}`, true)
-				.addField(
-					`Roles [${
-						member.roles.cache
-							.filter((r) => r.id !== message.guild.id)
-							.map((roles) => `\`${roles.name}\``).length
-					}]`,
-					`${
-						member.roles.cache
-							.filter((r) => r.id !== message.guild.id)
-							.map((roles) => `<@&${roles.id}>`)
-							.join(" **|** ") || "No Roles"
-					}`,
-					true
+					{
+						name: "Joined this server on: ",
+						value: `${moment(member.joinedAt).format("dddd, MMMM Do YYYY")}`,
+						inline: true,
+					},
+					{
+						name: "Created at: ",
+						value: `${moment(member.user.createdAt).format(
+							"dddd, MMMM Do YYYY, HH:mm:ss"
+						)}`,
+						inline: true,
+					},
+					{ name: "Status: ", value: `${member.presence?.status}`, inline: true },
+					{ name: "Bannable : ", value: `${member.bannable}`, inline: true },
+					{ name: "Kickable : ", value: `${member.kickable}`, inline: true },
+					{ name: "Manageable : ", value: `${member.manageable}`, inlinetrue },
+					{ name: "Acknowledgements: ", value: `${acknowledgements}`, inline: true },
+					{
+						name: `Roles [${
+							member.roles.cache
+								.filter((r) => r.id !== message.guild.id)
+								.map((roles) => `\`${roles.name}\``).length
+						}]`,
+						value: `${
+							member.roles.cache
+								.filter((r) => r.id !== message.guild.id)
+								.map((roles) => `<@&${roles.id}>`)
+								.join(" **|** ") || "No Roles"
+						}`,
+						inline: true,
+					}
 				)
 				.setTimestamp()
 				.setFooter({ text: `Caden-San's info module` });
@@ -87,7 +91,6 @@ module.exports = new Command({
 			streamKonsole.error(
 				`${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}`
 			);
-
 			const channelDev = client.guilds.cache
 				.get(config.baseGuildId)
 				.channels.cache.find((channel) => channel.id === config.baseDevLogChannelId);

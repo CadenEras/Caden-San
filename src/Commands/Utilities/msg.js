@@ -13,7 +13,7 @@ const currentDate = new Date(time).toISOString();
 
 module.exports = new Command({
 	name: "msg",
-	description: "Sending message via V-Soho",
+	description: "Sending message via Caden-San",
 	usage: "msg [channel] [msg]",
 	permission: "ADMINISTRATOR",
 	async run(message, args, client) {

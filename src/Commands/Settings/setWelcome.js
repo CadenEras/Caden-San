@@ -19,6 +19,7 @@ module.exports = new Command({
 	name: "setWelcome",
 	description: "Set your custom mute role",
 	usage: "setWelcome (channelID)",
+	available: false,
 	permission: "ADMINISTRATOR",
 	async run(message, args, client) {
 		try {
@@ -37,6 +38,7 @@ module.exports = new Command({
 				return message.channel.send("This Id is not a valid channel. Please retry.");
 			}
 
+			// todo:  to fix with the right parameters
 			let wMessage = args.slice(2, 1000).join(" ");
 			client = member;
 			wMessage = wMessage

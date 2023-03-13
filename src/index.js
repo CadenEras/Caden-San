@@ -68,13 +68,6 @@ try {
 		streamKonsole.log(`${currentDate} => Caden-San has disconnected from the database !`);
 	});
 
-	//Not necessary I think....
-	/*mongoose.connection.on( "error", ( error ) => {
-		streamKonsole.log(
-			`${currentDate} => Caden-San encountered an error with the connection to the database ! Error : ${error}`,
-		);
-	} );*/
-
 	//Starting the client
 	const client = new Client();
 	client.start(config.token);

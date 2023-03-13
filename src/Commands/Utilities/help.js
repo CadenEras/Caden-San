@@ -21,8 +21,6 @@ module.exports = new Command({
 	async run(message, args, client) {
 		const command = client.commands.find((cmd) => cmd.name === args[1]);
 
-		//TODO fix that !
-
 		try {
 			if (!command) {
 				const embed1 = new Discord.EmbedBuilder()
@@ -93,13 +91,9 @@ module.exports = new Command({
 			}
 		} catch (error) {
 			Sentry.captureException(error);
-			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
-			
-			//temporary for test
-			console.error(
+			streamKonsole.error(
 				`${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}`
 			);
-
 			const channelDev = client.guilds.cache
 				.get(config.baseGuildId)
 				.channels.cache.find((channel) => channel.id === config.baseDevLogChannelId);

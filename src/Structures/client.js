@@ -62,7 +62,7 @@ class Client extends Discord.Client {
 				this.commands.set(command.name, command);
 			}
 		});
-		
+
 		//Reading event files
 		fs.readdirSync(`./events`)
 			.filter((files) => files.endsWith(".js"))

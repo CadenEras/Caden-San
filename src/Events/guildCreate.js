@@ -11,9 +11,6 @@ let streamKonsole = new console.Console(logFileStream, logFileStream, false);
 let time = Date.now();
 const currentDate = new Date(time).toISOString();
 
-//not useful I guess
-//const defaultPrefix = config.prefix;
-
 module.exports = new Event("guildCreate", (client, guild, message) => {
 	streamKonsole.log(
 		`${currentDate} [GUILD EVENT] ${guild.name} (${guild.id}) added Caden-San. Ready on it. Owner should start configuration.`
@@ -22,7 +19,10 @@ module.exports = new Event("guildCreate", (client, guild, message) => {
 	const channel = client.channels.cache.find((channel) => channel.id === guild.systemChannelId);
 
 	try {
-		return channel.send("Welcome ! this is a test message !");
+		// For the test
+		return channel.send(
+			"Welcome ! To start with me, try c!settings and c!help ! And you should be ready to go~"
+		);
 	} catch (error) {
 		//handle error
 		Sentry.captureException(error);
