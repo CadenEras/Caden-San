@@ -1,9 +1,10 @@
 /** @format */
 
+//@ts-check
+
 const Command = require("../../Structures/command");
 require("dotenv").config({ path: "./../../.env" });
 const Discord = require("discord.js");
-const pagination = require("discord.js-pagination");
 const fs = require("fs");
 const config = require("../../Config/config.json");
 const Sentry = require("@sentry/node");
@@ -23,40 +24,8 @@ module.exports = new Command({
 		//TODO fix that !
 
 		try {
-			/*let pause = ms => new Promise( ( timeOut, j ) => setTimeout( timeOut, ms ) );
-			let helpEmbed = {};
-			fs.readdir( "../../Commands/", ( err2, manual ) => {
-				for ( let i = 0; i < manual.length; i ++ ) {
-					helpEmbed[i] = new Discord.EmbedBuilder();
-					helpEmbed[i].setTitle( manual[i] );
-					helpEmbed[i].setColor( "#af4ae9" );
-					const j = i;
-					fs.readdir( `../../Commands/${manual[i]}/`, ( err1, files1 ) => {
-						files1.forEach( ( f2, i2 ) => {
-							const cmd = f2.replace( ".js", "" );
-							helpEmbed[j].addField( cmd, "testing" );
-						} );
-					} );
-				}
-			} );
-			await pause( 50 );
-			let numPage = [];
-			let f = 0;
-			for ( let step = 0; f === 0; step ++ ) {
-				if( helpEmbed[numPage.length] ) {
-					numPage[numPage.length] = helpEmbed[numPage.length];
-					console.log( "+1" );
-				} else {
-					f = 1;
-				}
-			}
-			await pause( 50 );
-			const emojis = [ "◀", "▶" ];
-			
-			await pagination( message, numPage, emojis );*/
 			if (!command) {
 				const embed1 = new Discord.EmbedBuilder()
-
 					.setTitle("Caden-San's Library")
 					.setColor("#af4ae9")
 					.setDescription(
@@ -70,15 +39,15 @@ module.exports = new Command({
 					.addFields(
 						{
 							name: "Utilities",
-							value: "`help` `server-info` `user-info` `about` `ping`",
+							value: "`help` `server-info` `user-info` `about` `ping` `msg`",
 						},
 						{
 							name: "Moderation :",
-							value: "`ban` `unban` `kick` `mute` `unmute` `clear`",
+							value: "`ban` `unban` `kick` `mute` `unmute` `clear` `warn` `pardon`",
 						},
 						{
 							name: "Settings :",
-							value: "`prefix` `settings` `setMuteRole`",
+							value: "`prefix` `settings` `setMuteRole` `setWelcome` `setLogChannel` `setMemberRole`",
 						}
 					)
 					.setTimestamp()
@@ -100,19 +69,19 @@ module.exports = new Command({
 					})
 					.addFields(
 						{
-							name: `Command :`,
+							name: `**Command : **`,
 							value: `${message.guild.prefix}${command.name}`,
 						},
 						{
-							name: `Description:`,
+							name: `**Description: **`,
 							value: `${command.description}\n`,
 						},
 						{
-							name: `Usage :`,
+							name: `**Usage : **`,
 							value: `${command.usage}\n`,
 						},
 						{
-							name: `Permission needed :`,
+							name: `**Needed permission : **`,
 							value: `${command.permission}\n`,
 						}
 					)
@@ -124,8 +93,9 @@ module.exports = new Command({
 			}
 		} catch (error) {
 			Sentry.captureException(error);
-			//streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
-			//temporary
+			streamKonsole.error( `${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}` );
+			
+			//temporary for test
 			console.error(
 				`${currentDate} => error occurred in ${message.guild.id} => \n\t\t\t => ${error}`
 			);
