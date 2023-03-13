@@ -13,7 +13,8 @@
 # Welcome !
 
 Caden-San is an easy moderation bot. Always improving, Caden will help you keep your server functional and healthy and of course, a bit funny.
-<img src="https://i.imgur.com/XAU9q9Y.png" alt="caden-san avatar" style="max-width: 50%; margin-top: 20px;">
+
+<img alt="caden-san avatar" height="300" src="https://i.imgur.com/XAU9q9Y.png" width="300"/>
 
 ## In development !
 
