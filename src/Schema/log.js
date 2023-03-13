@@ -1,11 +1,11 @@
 /** @format */
 
 //Not used and working actually
-const mongoose = require( "mongoose" );
+const mongoose = require("mongoose");
 
 module.exports = mongoose.model(
 	"Log",
-	new mongoose.Schema( {
+	new mongoose.Schema({
 		//Storing information about each command that is run
 		commandName: { type: String, default: "unknown" },
 		date: { type: Number, default: Date.now() },
@@ -25,5 +25,5 @@ module.exports = mongoose.model(
 				id: null,
 			},
 		},
-	} ),
+	})
 );
