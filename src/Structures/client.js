@@ -20,7 +20,7 @@ let instance;
 class Client extends Discord.Client {
 	constructor() {
 		super({
-			intents: [1, 2, 64, 4, 512, 16, 32768, 65536],
+			intents: [Discord.GatewayIntentBits.Guilds],
 			partials: [
 				Discord.Partials.User,
 				Discord.Partials.Message,
