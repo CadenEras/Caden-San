@@ -13,11 +13,9 @@
   },
   "homepage": "https://github.com/CadenEras/Caden-San/blob/main/README.md",
   "dependencies": {
-    "@discordjs/rest": "^1.6.0",
     "@sentry/node": "^7.43.0",
     "@sentry/tracing": "^7.43.0",
-    "discord-api-types": "^0.37.36",
-    "discord.js": "^14.8.0",
+    "discord.js": "^14.15.3",
     "moment": "^2.29.4",
     "mongoose": "^7.0.1",
     "node": "19.6.1",
