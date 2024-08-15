@@ -9,8 +9,7 @@
  */
 
 //This is the start, nothing above, everything below !
-
-const Client = require("./Structures/client");
+const discord = require("discord.js");
 const mongoose = require("mongoose");
 const config = require("./Config/config.json");
 const fs = require("fs");
@@ -38,6 +37,69 @@ Sentry.init({
 	tracesSampleRate: 1.0,
 });
 
+const client = new discord.Client({ intents: [discord.GatewayIntentBits.Guilds] });
+
+client.commands = new Collection();
+
+const foldersPath = path.join(__dirname, '../Commands');
+const commandFolders = fs.readdirSync(foldersPath);
+
+for (const folder of commandFolders) {
+	const commandsPath = path.join(foldersPath, folder);
+	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
+	for (const file of commandFiles) {
+		const filePath = path.join(commandsPath, file);
+		const command = require(filePath);
+		if ('data' in command && 'execute' in command) {
+			client.commands.set(command.data.name, command);
+		} else {
+			console.log(`${currentDate} => [WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			streamKonsole.log(`${currentDate} => [WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+		}
+	}
+}
+
+client.once(Events.ClientReady, readyClient => {
+	streamKonsole.log(
+		`[CLIENT INFO] Time : ${readyClient.readyAt}.\n Caden is up, logged in as ${readyClient.user.tag} (${readyClient.user.id}), ready on ${readyClient.guilds.cache.size} servers.`
+	);
+
+	console.log(
+		`[CLIENT INFO] Time : ${readyClient.readyAt}.\n Caden is up, logged in as ${readyClient.user.tag} (${readyClient.user.id}), ready on ${readyClient.guilds.cache.size} servers.`
+	);
+
+	readyClient.user.setPresence({
+		activities: [
+			{
+				name: "the gatekeeper | c!help",
+				type: 0,
+			},
+		],
+		status: "online",
+	});
+});
+
+client.on(Events.InteractionCreate, async interaction => {
+	if (!interaction.isChatInputCommand()) return;
+	const command = interaction.client.commands.get(interaction.commandName);
+
+	if (!command) {
+		console.error(`No command matching ${interaction.commandName} was found.`);
+		return;
+	}
+
+	try {
+		await command.execute(interaction);
+	} catch (error) {
+		console.error(`${currentDate} => There was an error while executing this command : ${error}`);
+		streamKonsole.log(`${currentDate} => There was an error while executing this command : ${error}`);
+		if (interaction.replied || interaction.deferred) {
+			await interaction.followUp({ content: 'There was an error while executing this command!', ephemeral: true });
+		} else {
+			await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		}
+	}
+});
 
 //And then try everything here
 try {
@@ -54,11 +116,10 @@ try {
 	});
 
 	//Starting the client
-	const client = new Client();
-	client.start(config.token);
+	client.login(config.token);
 } catch (e) {
 	//Handling errors
-	streamKonsole.log(`${currentDate} => Error while initializing connection : ${e}`);
+	streamKonsole.log(`${currentDate} => Error while initializing connection / client : ${e}`);
 	Sentry.captureException(e);
 }
 
